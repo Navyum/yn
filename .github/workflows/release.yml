@@ -10,10 +10,10 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: macos-13
-            platform: 'mac'
-#          - os: windows-2019
-#            platform: 'win'
+#          - os: macos-13
+#            platform: 'mac'
+          - os: windows-2019
+            platform: 'win'
 #          - os: ubuntu-20.04
 #            platform: 'linux'
 #           - os: ubuntu-18.04
@@ -125,8 +125,8 @@ jobs:
           COS_SECRET_KEY: ${{ secrets.COS_SECRET_KEY }}
           COS_BUCKET: ${{ secrets.COS_BUCKET }}
         run: |
-          pip install --upgrade --no-cache-dir coscmd
-          coscmd config -a "%COS_SECRET_ID%" -s "%COS_SECRET_KEY%" -b "%COS_BUCKET%" -e cos.accelerate.myqcloud.com
+          #pip install --upgrade --no-cache-dir coscmd
+          #coscmd config -a "%COS_SECRET_ID%" -s "%COS_SECRET_KEY%" -b "%COS_BUCKET%" -e cos.accelerate.myqcloud.com
 
       - name: Upload to COS
         if: contains(github.ref_name, '-next-') != true
