@@ -100,8 +100,10 @@ async function upgradeV1License (oldLicense: string) {
   upgradeTryCount++
 
   try {
-    const licenseId = await requestApi('upgradeLicense', { oldLicense, locale: getCurrentLanguage() })
-    await activateLicense(licenseId)
+    //注释 vip认证
+    //const licenseId = await requestApi('upgradeLicense', { oldLicense, locale: getCurrentLanguage() })
+    //await activateLicense(licenseId)
+    
     useToast().show('info', 'License upgraded successfully')
     showPremium('activation')
   } catch (error) {
@@ -133,7 +135,7 @@ export function getPurchased (force = false) {
     lastPurchased = val
   }
 
-  return val
+  return true  //val
 }
 
 export function showPremium (tab?: PremiumTab) {
@@ -225,6 +227,8 @@ async function checkDevice (device: string) {
 
 export async function refreshLicense (opts?: { throwError?: boolean }) {
   logger.debug('refreshLicense', opts)
+  
+  /*
   try {
     const token = getLicenseToken()
     if (token) {
@@ -239,26 +243,34 @@ export async function refreshLicense (opts?: { throwError?: boolean }) {
     }
   }
 }
+*/
 
 export async function activateLicense (licenseId: string) {
   logger.debug('activateLicense', licenseId)
+  
+  /*
   await requestApi('addDevice', { licenseId })
   await setLicense(licenseId)
+  */
 }
 
 export async function activateByTokenString (tokenString: string) {
   logger.debug('activateByToken', tokenString)
   await setSetting('license', tokenPrefix + tokenString)
+
+  /*
   const token = getLicenseToken()
   if (token) {
     await checkDevice(token.device)
   } else {
     throw new Error('INVALID_LICENSE')
   }
+  */
 }
 
 function checkLicenseStatus () {
   logger.debug('checkLicenseStatus')
+  /*
   const token = getLicenseToken()
   if (token) {
     if (token.status === 'stale') {
@@ -275,6 +287,8 @@ function checkLicenseStatus () {
       showPremium('activation')
     }
   }
+  */
+  
 }
 
 async function refreshAndCheckLicenseStatus () {
@@ -283,11 +297,15 @@ async function refreshAndCheckLicenseStatus () {
   }
 
   logger.debug('refreshAndCheckLicenseStatus')
+  
+  /*
   try {
     await refreshLicense()
   } finally {
     checkLicenseStatus()
   }
+  */
+  
 }
 
 registerHook('STARTUP', refreshAndCheckLicenseStatus)
