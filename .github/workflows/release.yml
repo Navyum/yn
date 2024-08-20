@@ -107,32 +107,6 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: Install coscmd
-        if: matrix.platform != 'win' && contains(github.ref_name, '-next-') != true
-        env:
-          COS_SECRET_ID: ${{ secrets.COS_SECRET_ID }}
-          COS_SECRET_KEY: ${{ secrets.COS_SECRET_KEY }}
-          COS_BUCKET: ${{ secrets.COS_BUCKET }}
-        run: |
-          pip install coscmd
-          coscmd config -a $COS_SECRET_ID -s $COS_SECRET_KEY -b $COS_BUCKET -e cos.accelerate.myqcloud.com
-
-      - name: Install coscmd for Windows
-        if: matrix.platform == 'win' && contains(github.ref_name, '-next-') != true
-        shell: cmd
-        env:
-          COS_SECRET_ID: ${{ secrets.COS_SECRET_ID }}
-          COS_SECRET_KEY: ${{ secrets.COS_SECRET_KEY }}
-          COS_BUCKET: ${{ secrets.COS_BUCKET }}
-        run: |
-          #pip install --upgrade --no-cache-dir coscmd
-          #coscmd config -a "%COS_SECRET_ID%" -s "%COS_SECRET_KEY%" -b "%COS_BUCKET%" -e cos.accelerate.myqcloud.com
-
-      - name: Upload to COS
-        if: contains(github.ref_name, '-next-') != true
-        run: |
-          coscmd upload -r out / --include out/Yank-Note*.*,out/latest*.yml
-
       - name: GH Release
         uses: softprops/action-gh-release@v2.0.5
         env:
