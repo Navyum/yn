@@ -63,6 +63,8 @@ jobs:
           echo "CSC_KEY_PASSWORD=${{ secrets.CSC_KEY_PASSWORD }}" >> $GITHUB_ENV
           #echo "TEAMID=${{ secrets.TEAMID }}" >> $GITHUB_ENV
 
+          echo $GITHUB_ENV
+
       - name: Build
         run: |
           yarn build
