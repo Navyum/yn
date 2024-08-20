@@ -52,18 +52,11 @@ jobs:
       - name: Set env
         if: matrix.platform == 'mac'
         run: |
-          echo ${{ secrets.APPLEID }}
-          echo ${{ secrets.APPLEIDPASS }}
-          echo ${{ secrets.CSC_LINK }}
-          echo ${{ secrets.CSC_KEY_PASSWORD }}
-          
           echo "APPLEID=${{ secrets.APPLEID }}" >> $GITHUB_ENV
           echo "APPLEIDPASS=${{ secrets.APPLEIDPASS }}" >> $GITHUB_ENV
           echo "CSC_LINK=${{ secrets.CSC_LINK }}" >> $GITHUB_ENV
           echo "CSC_KEY_PASSWORD=${{ secrets.CSC_KEY_PASSWORD }}" >> $GITHUB_ENV
           #echo "TEAMID=${{ secrets.TEAMID }}" >> $GITHUB_ENV
-
-          echo $GITHUB_ENV
 
       - name: Build
         run: |
