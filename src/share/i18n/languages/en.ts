@@ -11,6 +11,7 @@ const data = {
   'demo-tips': 'Some features are not available in DEMO mode.',
   'more': 'More',
   'copied': 'Copied',
+  'others': 'Others',
   'insert-different-repo-doc': 'Documents from different repository cannot be inserted',
   'need-clipboard-permission': 'Please grant clipboard permissions',
   'click-to-copy': 'Click to copy',
@@ -191,6 +192,7 @@ const data = {
     'password-open': '[Open] Please enter password of the file',
     'wrong-password': 'Wrong Password',
     'file-transform-error': 'Encrypted and unencrypted files cannot be converted to each other',
+    'custom-extension': 'Custom Extension',
     'create-dialog': {
       'title': 'Create a file',
       'hint': 'File name',
@@ -269,6 +271,7 @@ const data = {
       'readme': 'Introduction',
       'features': 'Features',
       'shortcuts': 'Shortcuts',
+      'guide': 'Guide',
       'plugin': 'Create Plugin'
     },
     'terminal': 'Terminal',
@@ -399,6 +402,7 @@ const data = {
         'suggest-on-trigger-characters': 'Suggest on trigger characters - You can also use Ctrl+Space (depending on the shortcuts) to trigger',
         'sticky-scroll-enabled': 'Enable Sticky Scroll - When the editor scrolls, the document title is fixed',
         'quick-suggestions': 'Quick Suggestions - Suggest as you type',
+        'enable-ai-copilot-action': 'Enable the AI Copilot Action - Show the AI Copilot Action lightbulb when available',
       },
       'render': {
         'md-html': 'Enable HTML',

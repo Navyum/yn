@@ -182,11 +182,25 @@ export async function createDoc (doc: Optional<Pick<Doc, 'repo' | 'path' | 'cont
 export async function createDoc (doc: Optional<Pick<Doc, 'repo' | 'path' | 'content'>, 'path'>, baseDoc?: Doc) {
   const docType = shallowRef<DocType | null | undefined>(null)
 
+  const othersDocCategoryName = '__others__'
+
   if (!doc.path) {
     if (baseDoc) {
       const currentPath = baseDoc.type === 'dir' ? baseDoc.path : dirname(baseDoc.path)
 
-      const categories = getAllDocCategories()
+      const categories = getAllDocCategories().concat({
+        category: othersDocCategoryName,
+        displayName: t('others'),
+        types: [
+          {
+            id: 'custom',
+            displayName: t('document.custom-extension'),
+            extension: [''],
+            plain: true,
+            buildNewContent: () => ''
+          }
+        ]
+      })
       const markdownCategory = categories.find(x => x.category === 'markdown')
       const mdType = markdownCategory?.types.find(x => x.extension.includes(misc.MARKDOWN_FILE_EXT))
       docType.value = mdType
@@ -217,11 +231,12 @@ export async function createDoc (doc: Optional<Pick<Doc, 'repo' | 'path' | 'cont
         throw new Error('Need doc type')
       }
 
-      const ext = docType.value.extension[0] || ''
+      const supportedExts = docType.value.extension
 
       filename = filename.replace(/\/$/, '')
-      if (!filename.endsWith(ext)) {
-        filename += ext
+      const ext = extname(filename)
+      if (!supportedExts.includes(ext)) {
+        filename += (docType.value.extension[0] || '')
       }
 
       doc.path = join(currentPath, normalizeSep(filename))
@@ -282,7 +297,7 @@ export async function createDoc (doc: Optional<Pick<Doc, 'repo' | 'path' | 'cont
 
     checkFilePath(file.path)
 
-    if (!content) {
+    if (typeof content !== 'string') {
       throw new Error('Could not get content')
     }
 
@@ -575,7 +590,7 @@ export async function ensureCurrentFileSaved () {
   const { currentFile, currentContent } = store.state
 
   // do not check if current file is not plain file.
-  if (currentFile && !extensions.supported(currentFile.name)) {
+  if (!currentFile || !currentFile.plain) {
     return
   }
 
@@ -894,6 +909,8 @@ export function hideHistory () {
 }
 
 function cacheSupportedExtension () {
+  const currentFileSupported = !!(store.state.currentFile && supported(store.state.currentFile))
+
   supportedExtensionCache.types.clear()
   supportedExtensionCache.sortedExtensions = []
 
@@ -907,6 +924,14 @@ function cacheSupportedExtension () {
   }
 
   supportedExtensionCache.sortedExtensions.sort((a, b) => b.length - a.length)
+
+  // refresh current file if change supported status
+  if (store.state.currentFile) {
+    const currentFileSupportedNow = supported(store.state.currentFile)
+    if (currentFileSupported !== currentFileSupportedNow) {
+      switchDoc(store.state.currentFile || null, { force: true })
+    }
+  }
 }
 
 /**
