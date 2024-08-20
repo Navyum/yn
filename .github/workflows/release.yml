@@ -74,12 +74,14 @@ jobs:
           sh ./scripts/download-ripgrep.sh
           yarn run electron-builder --${{ matrix.platform }} --x64 -p never | sed 's/identityName=.*$//'
           find ./out -regex '.*app.asar.unpacked/node_modules/node-pty/build/Release/pty.node$' | grep pty.node
-          mv out/latest-mac.yml out/latest-mac-x64.yml
+          #mv out/latest-mac.yml out/latest-mac-x64.yml
+          
           yarn electron-rebuild --arch=arm64
           sed -i '' 's/out\/mac\/Yank Note.app/out\/mac-arm64\/Yank Note.app/' electron-builder.json
           yarn run electron-builder --${{ matrix.platform }} --arm64 -p never | sed 's/identityName=.*$//'
-          mv out/latest-mac.yml out/latest-mac-arm64.yml
-          cat out/latest-mac-arm64.yml out/latest-mac-x64.yml | sed '9,13d' > out/latest-mac.yml
+          
+          #mv out/latest-mac.yml out/latest-mac-arm64.yml
+          #cat out/latest-mac-arm64.yml out/latest-mac-x64.yml | sed '9,13d' > out/latest-mac.yml
 
       - name: Electron-Linux
         if: matrix.platform == 'linux'
@@ -116,4 +118,4 @@ jobs:
           tag_name: 'v1.0'
           files: |
             out/Yank-Note*.*
-            out/latest*.yml
+            # out/latest*.yml
