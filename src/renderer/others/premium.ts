@@ -242,8 +242,8 @@ export async function refreshLicense (opts?: { throwError?: boolean }) {
       logger.error('refreshLicense', error)
     }
   }
+  */
 }
-*/
 
 export async function activateLicense (licenseId: string) {
   logger.debug('activateLicense', licenseId)
