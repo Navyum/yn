@@ -10,10 +10,10 @@ jobs:
     strategy:
       matrix:
         include:
-#          - os: macos-13
-#            platform: 'mac'
-          - os: windows-2019
-            platform: 'win'
+          - os: macos-13
+            platform: 'mac'
+#          - os: windows-2019
+#            platform: 'win'
 #          - os: ubuntu-20.04
 #            platform: 'linux'
 #           - os: ubuntu-18.04
