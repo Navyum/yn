@@ -112,6 +112,7 @@ async function upgradeV1License (oldLicense: string) {
 }
 
 function _getPurchased (force = false) {
+  /*
   logger.debug('_getPurchased', force)
   if (FLAG_DEMO || MODE === 'share-preview') {
     return true
@@ -121,8 +122,9 @@ function _getPurchased (force = false) {
   if (typeof token === 'undefined' || force) {
     token = getLicenseToken()
   }
+  */
 
-  return !!(token?.isAvailable)
+  return true    // !!(token?.isAvailable)
 }
 
 export function getPurchased (force = false) {
@@ -142,7 +144,8 @@ export function showPremium (tab?: PremiumTab) {
   logger.debug('showPremium', tab)
   upgradeTryCount = 0
   getActionHandler('premium.show')(tab)
-  ga.logEvent('yn_premium_show', { purchased: getPurchased() })
+  //注释谷歌分析
+  //ga.logEvent('yn_premium_show', { purchased: getPurchased() })
 }
 
 export function getLicenseToken () {
@@ -158,15 +161,21 @@ export function getLicenseToken () {
       return syncCacheLicenseToken(null)
     }
 
+    /*
     const token = new LicenseToken(
       tokenStr.slice(tokenPrefix.length),
       { publicOrPrivateKey: PREMIUM_PUBLIC_KEY }
     )
+    */
+    
+    const token = null
 
+    /*
     ga.setUserProperties({
       expires: token.expires.toLocaleDateString(),
       hash: md5(token.licenseId),
     })
+    */
 
     return syncCacheLicenseToken(token)
   } catch (error) {
