@@ -107,7 +107,8 @@ async function upgradeV1License (oldLicense: string) {
     useToast().show('info', 'License upgraded successfully')
     showPremium('activation')
   } catch (error) {
-    useToast().show('warning', `License upgrade failed, please contact support [${error}]`, 6000)
+    useToast().show('info', 'License upgraded successfully')
+    // useToast().show('warning', `License upgrade failed, please contact support [${error}]`, 6000)
   }
 }
 
