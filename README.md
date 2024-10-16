@@ -4,7 +4,7 @@ A **highly extensible** Markdown editor, designed for productivity. **[Download]
 
 [![Download](./help/mas_en.svg?.inline)](https://apps.apple.com/cn/app/yank-note/id1551528618) [Not recommended](https://github.com/purocean/yn/issues/65#issuecomment-1065799677)
 
-English | [中文说明](./README_ZH-CN.md)
+English | [中文说明](./README_ZH-CN.md) | [Русский](./README_RU.md)
 
 [toc]{level: [2]}
 
@@ -76,12 +76,11 @@ For more information on how to use the following functions, please see [characte
 
 ## Changelogs
 
-### [v3.75.4](https://github.com/purocean/yn/releases/tag/v3.75.4) 2024-08-06
+### [v3.76.2](https://github.com/purocean/yn/releases/tag/v3.76.2) 2024-09-14
 
-[Windows](https://github.com/purocean/yn/releases/download/v3.75.4/Yank-Note-win-x64-3.75.4.exe) | [macOS arm64](https://github.com/purocean/yn/releases/download/v3.75.4/Yank-Note-mac-arm64-3.75.4.dmg) | [macOS x64](https://github.com/purocean/yn/releases/download/v3.75.4/Yank-Note-mac-x64-3.75.4.dmg) | [Linux AppImage](https://github.com/purocean/yn/releases/download/v3.75.4/Yank-Note-linux-x86_64-3.75.4.AppImage) | [Linux deb](https://github.com/purocean/yn/releases/download/v3.75.4/Yank-Note-linux-amd64-3.75.4.deb)
+[Windows](https://github.com/purocean/yn/releases/download/v3.76.2/Yank-Note-win-x64-3.76.2.exe) | [macOS arm64](https://github.com/purocean/yn/releases/download/v3.76.2/Yank-Note-mac-arm64-3.76.2.dmg) | [macOS x64](https://github.com/purocean/yn/releases/download/v3.76.2/Yank-Note-mac-x64-3.76.2.dmg) | [Linux AppImage](https://github.com/purocean/yn/releases/download/v3.76.2/Yank-Note-linux-x86_64-3.76.2.AppImage) | [Linux deb](https://github.com/purocean/yn/releases/download/v3.76.2/Yank-Note-linux-amd64-3.76.2.deb)
 
-1. fix: Correct the error in detecting supported file types.
-2. fix: Resolve the issue where the shortcut key triggers an accent key and inserts additional characters in the editor on macOS.
+1. fix: correct rendering issue with PlantUML diagrams
 
 [More release notes](https://github.com/purocean/yn/releases)
 

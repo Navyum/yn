@@ -4,7 +4,7 @@
 
 [![Download](./help/mas_en.svg?.inline)](https://apps.apple.com/cn/app/yank-note/id1551528618) [Mac App Store 版本说明](https://github.com/purocean/yn/issues/65#issuecomment-1065799677)
 
-[English](./README.md) | 中文说明
+[English](./README.md) | 中文说明 | [Русский](./README_RU.md)
 
 [toc]{level: [2]}
 
@@ -76,12 +76,11 @@
 
 ## 更新日志
 
-### [v3.75.4](https://github.com/purocean/yn/releases/tag/v3.75.4) 2024-08-06
+### [v3.76.2](https://github.com/purocean/yn/releases/tag/v3.76.2) 2024-09-14
 
-[Windows](https://github.com/purocean/yn/releases/download/v3.75.4/Yank-Note-win-x64-3.75.4.exe) | [macOS arm64](https://github.com/purocean/yn/releases/download/v3.75.4/Yank-Note-mac-arm64-3.75.4.dmg) | [macOS x64](https://github.com/purocean/yn/releases/download/v3.75.4/Yank-Note-mac-x64-3.75.4.dmg) | [Linux AppImage](https://github.com/purocean/yn/releases/download/v3.75.4/Yank-Note-linux-x86_64-3.75.4.AppImage) | [Linux deb](https://github.com/purocean/yn/releases/download/v3.75.4/Yank-Note-linux-amd64-3.75.4.deb)
+[Windows](https://github.com/purocean/yn/releases/download/v3.76.2/Yank-Note-win-x64-3.76.2.exe) | [macOS arm64](https://github.com/purocean/yn/releases/download/v3.76.2/Yank-Note-mac-arm64-3.76.2.dmg) | [macOS x64](https://github.com/purocean/yn/releases/download/v3.76.2/Yank-Note-mac-x64-3.76.2.dmg) | [Linux AppImage](https://github.com/purocean/yn/releases/download/v3.76.2/Yank-Note-linux-x86_64-3.76.2.AppImage) | [Linux deb](https://github.com/purocean/yn/releases/download/v3.76.2/Yank-Note-linux-amd64-3.76.2.deb)
 
-1. fix: 修复支持的文件类型检测错误
-2. fix: 修复 macOS 上快捷键触发重音键会在编辑器插入额外字符问题
+1. fix: 修复 PlantUML 渲染不正确问题
 
 [更多发布说明](https://github.com/purocean/yn/releases)
 

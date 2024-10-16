@@ -30,6 +30,7 @@ const schema: SettingSchema = ({
           path: {
             type: 'string',
             title: 'T_setting-panel.schema.repos.path',
+            openDialogOptions: { properties: ['openDirectory', 'createDirectory'] },
             options: {
               inputAttributes: { placeholder: 'T_setting-panel.schema.repos.path-placeholder', style: 'cursor: pointer' }
             },
@@ -52,9 +53,9 @@ const schema: SettingSchema = ({
       defaultValue: 'system',
       title: 'T_setting-panel.schema.language',
       type: 'string',
-      enum: ['system', 'en', 'zh-CN', 'zh-TW'],
+      enum: ['system', 'en', 'zh-CN', 'zh-TW', 'ru'],
       options: {
-        enum_titles: ['System', 'English', '简体中文', '繁體中文'],
+        enum_titles: ['System', 'English', '简体中文', '繁體中文', 'русский'],
       },
       group: 'appearance',
       required: true,
@@ -267,6 +268,14 @@ const schema: SettingSchema = ({
       group: 'editor',
       required: true,
     },
+    'editor.enable-trigger-suggest-bulb': {
+      defaultValue: true,
+      title: 'T_setting-panel.schema.editor.enable-trigger-suggest-bulb',
+      type: 'boolean',
+      format: 'checkbox',
+      group: 'editor',
+      required: true,
+    },
     'editor.enable-ai-copilot-action': {
       defaultValue: true,
       title: 'T_setting-panel.schema.editor.enable-ai-copilot-action',
@@ -377,7 +386,7 @@ const schema: SettingSchema = ({
       defaultValue: 'localhost',
       title: 'T_setting-panel.schema.server.host',
       type: 'string',
-      enum: ['localhost', '0.0.0.0'],
+      enum: ['127.0.0.1', '0.0.0.0'],
       group: 'other',
       required: true,
     },

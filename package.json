@@ -1,6 +1,6 @@
 {
   "name": "yank.note",
-  "version": "3.76.0",
+  "version": "3.76.2",
   "description": "Yank Note: A highly extensible Markdown editor, designed for productivity.",
   "main": "dist/main/app.js",
   "license": "AGPL-3.0",
@@ -147,7 +147,7 @@
     "typescript": "^5.5.4",
     "utility-types": "^3.10.0",
     "viewerjs": "^1.11.6",
-    "vite": "^5.3.5",
+    "vite": "^5.3.6",
     "vue": "^3.4.35",
     "vue-tsc": "^2.0.29",
     "xterm": "^4.18.0",
