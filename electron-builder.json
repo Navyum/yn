@@ -1,6 +1,6 @@
 {
-  "appId": "mark.down",
-  "productName": "MarkDown Note",
+  "appId": "yank.down",
+  "productName": "Yank Note",
   "copyright": "Copyright 2018-2021",
   "asar": true,
   "asarUnpack": [
@@ -17,7 +17,7 @@
     "./dist/**",
     "!node_modules/plantuml-pipe/vendor/*"
   ],
-  "artifactName": "MarkDown-Note-${os}-${arch}-${version}.${ext}",
+  "artifactName": "Yank-Note-${os}-${arch}-${version}.${ext}",
   "directories": {
     "output": "./out/"
   },
@@ -40,7 +40,7 @@
     ]
   },
   "mac": {
-    "icon": "./build/test.icns",
+    "icon": "./build/icon.icns",
     "gatekeeperAssess": false,
     "hardenedRuntime": true,
     "entitlements": "build/entitlements.mac.plist",
