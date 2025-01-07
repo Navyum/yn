@@ -77,18 +77,24 @@ jobs:
       - name: Electron-Mac
         if: matrix.platform == 'mac'
         run: |
+          ## 下载外部依赖
           sh ./scripts/download-ripgrep.sh
+          
+          ## 编译amd版本
           yarn run electron-builder --${{ matrix.platform }} --x64 -p never | sed 's/identityName=.*$//'
           find ./out -regex '.*app.asar.unpacked/node_modules/node-pty/build/Release/pty.node$' | grep pty.node
           ls -alh out/*
-          #mv out/latest-mac.yml out/latest-mac-x64.yml
+          mv out/latest-mac.yml out/latest-mac-x64.yml
           
+          ## 编译arm64版本
           yarn electron-rebuild --arch=arm64
           sed -i '' 's/out\/mac\/$PRODUCT_NAME.app/out\/mac-arm64\/$PRODUCT_NAME.app/' electron-builder.json
           yarn run electron-builder --${{ matrix.platform }} --arm64 -p never | sed 's/identityName=.*$//'
           
           ls -alh out/*
-          #mv out/latest-mac.yml out/latest-mac-arm64.yml
+          mv out/latest-mac.yml out/latest-mac-arm64.yml
+          
+          # 未知的操作
           #cat out/latest-mac-arm64.yml out/latest-mac-x64.yml | sed '9,13d' > out/latest-mac.yml
 
       - name: Electron-Linux
@@ -125,5 +131,5 @@ jobs:
           prerelease: true
           tag_name: ${{ github.ref_name }}
           files: |
-            out/Yank-Note*.*
-            # out/latest*.yml
+            out/$PRODUCT_NAME*.*
+            out/latest.*.yml
