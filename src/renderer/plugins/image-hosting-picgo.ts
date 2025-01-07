@@ -15,7 +15,7 @@ export default {
         title: 'T_picgo.setting.api-title',
         description: 'T_picgo.setting.api-desc',
         type: 'string',
-        defaultValue: '',
+        defaultValue: 'http://127.0.0.1:36677/upload',
         pattern: '^(http://|https://|$)',
         options: {
           patternmessage: 'T_picgo.setting.api-msg',
@@ -52,6 +52,31 @@ export default {
         ctx.ui.useToast().show('info', ctx.i18n.t('picgo.uploading'), 0)
 
         logger.debug('upload', url, file)
+
+        // remote mode, use multipart/form-data to upload
+        if (url.includes('key=')) {
+          const formData = new FormData()
+          formData.append('file', file)
+
+          try {
+            const { result } = await ctx.api.proxyFetch(
+              url,
+              { method: 'post', body: formData, },
+            ).then(r => r.json())
+
+            ctx.ui.useToast().hide()
+
+            if (result.length > 0) {
+              return result[0]
+            }
+          } catch (error) {
+            const msg = ctx.i18n.t('picgo.upload-failed')
+            ctx.ui.useToast().show('warning', msg)
+            throw new Error(msg)
+          }
+
+          return
+        }
 
         const tmpFileName = 'picgo-' + file.name
 

@@ -1,6 +1,6 @@
 <template>
   <div :class="{'markdown-view': true, presentation}" :style="{'--markdown-body-max-width': markdownBodyMaxWidth}">
-    <article ref="refView" class="markdown-body" @dblclick.capture="handleDbClick" @click.capture="handleClick" @contextmenu.capture="handleContextMenu">
+    <article ref="refView" class="markdown-body" @dblclick.capture="handleDbClick" @click.capture="handleClick" @contextmenu.capture="handleContextMenu" @error.capture="handleError">
       <Render :content="renderContent" />
     </article>
   </div>
@@ -90,6 +90,7 @@ async function render (checkInComposition = false) {
   const startTime = performance.now()
   renderEnv = { tokens: [], source: content, file, renderCount, safeMode }
   try {
+    await triggerHook('VIEW_BEFORE_RENDER', { env: renderEnv }, { breakable: true })
     renderContent.value = renderer.render(content, renderEnv)
   } catch (error: any) {
     logger.error('render', error)
@@ -126,6 +127,10 @@ function handleDbClick (e: MouseEvent) {
 
 function handleClick (e: MouseEvent) {
   triggerHook('VIEW_ELEMENT_CLICK', { e, view: getViewDom()! }, { breakable: true })
+}
+
+function handleError (e: Event) {
+  triggerHook('VIEW_DOM_ERROR', { e, view: getViewDom()! }, { breakable: true })
 }
 
 function handleContextMenu (e: MouseEvent) {
@@ -301,7 +306,7 @@ watch(fileUri, () => {
 </style>
 
 <style lang="scss">
-@import '@fe/styles/mixins.scss';
+@use '@fe/styles/mixins.scss' as *;
 
 body.find-in-preview-highlight ::selection {
   background-color: #ffeb3b !important;
@@ -343,13 +348,29 @@ body.find-in-preview-highlight ::selection {
       cursor: zoom-in;
     }
 
-    p > img[auto-center] {
+    video {
+      max-width: 100%;
+    }
+
+    audio {
+      max-width: 100%;
+      width: 300px;
+      height: 42px;
+    }
+
+    p > img[auto-center],
+    p > video[auto-center],
+    p > audio[auto-center] {
       display: block;
       margin-left: auto;
       margin-right: auto;
     }
 
-    img {
+    p > audio[auto-center] {
+      width: 100%;
+    }
+
+    img, video {
       &.inline,
       &[src*=".inline"],
       &[origin-src*=".inline"] {

@@ -46,6 +46,8 @@ const data = {
   'can-not-edit-this-file-type': 'Cannot edit this file type',
   'read-only-mode-desc': 'The application is currently in read-only mode and cannot be edited.',
   'trigger-suggestions': 'Trigger Suggestions',
+  'table-of-contents': 'Table of Contents',
+  'text-comparator': 'Text Comparator',
   'premium': {
     'confetti': 'Confetti',
     'need-purchase': '[%s] Premium is required',
@@ -210,6 +212,10 @@ const data = {
       'title': 'Delete a File',
       'content': 'Are you sure want to delete %s?'
     },
+    'force-delete-dialog': {
+      'title': 'Delete a File',
+      'content': 'Move to trash failed, are you sure want to delete %s directly?',
+    },
     'move-dialog': {
       'title': 'Move/Rename a File',
       'content': 'New path'
@@ -260,6 +266,7 @@ const data = {
       'share-preview': 'Share Preview',
       'print': 'Print Document',
       'export': 'Export Document',
+      'open-text-comparator': 'Open Text Comparator',
     },
     'document-info': {
       'selected': 'Selected',
@@ -352,6 +359,7 @@ const data = {
       'zoom': 'Zoom',
       'use-browser': 'The browser printing feature will be used.',
       'include-bg': 'Include background',
+      'generate-document-outline': 'Generate document outline',
     },
     'use-html': 'Use the rendered HTML source',
     'use-markdown': 'Use markdown source',
@@ -369,6 +377,9 @@ const data = {
     'delete-warning': 'Are you sure you want to remove this node?',
     'error-choose-repo-path': 'Please choose repository path',
     'change-keyboard-shortcuts': 'Change Keyboard Shortcuts',
+    'reset-title': 'Reset to the default value "%s"',
+    'reset-confirm-title': 'Attention',
+    'reset-confirm-desc': 'Are you sure you want to reset to the default value "%s"?',
     'tabs': {
       'repos': 'Repositories',
       'appearance': 'Appearance',
@@ -386,7 +397,8 @@ const data = {
         'name': 'Name',
         'name-placeholder': 'Name',
         'path': 'Path',
-        'path-placeholder': 'Please select the storage location'
+        'path-placeholder': 'Please select the storage location',
+        'enable-indexing': 'Enable Indexing',
       },
       'editor': {
         'mouse-wheel-zoom': 'Mouse Wheel Zoom',
@@ -428,7 +440,7 @@ const data = {
       'language': 'Language',
       'custom-css': 'Custom CSS',
       'assets-dir': 'Image Dir',
-      'assets-desc': 'Relative or absolute path (in document repository). Variables: docName, docBasename, docSlug, docHash, date.',
+      'assets-desc': 'Relative or absolute path (in document repository). Variables: docName, docBasename, docSlug, docHash, docPath, date.',
       'assets': {
         'path-type': 'Path Type',
       },
@@ -456,7 +468,6 @@ const data = {
       'proxy': {
         'enabled': 'Enabled',
         'server': 'Proxy Server',
-        'server-hint': '127.0.0.1:8080',
         'bypass-list': 'Bypass List',
         'pac-url': 'PAC URL',
       },
@@ -620,6 +631,7 @@ const data = {
     'type': 'Copy Type: ',
     'inline-style': 'Inline Style',
     'include-style': 'Include Style',
+    'include-toc': 'Include TOC',
     'inline-image': 'Inline Local Image',
     'upload-image': 'Upload Local Image',
     'highlight-code': 'Highlight Code',
@@ -684,7 +696,12 @@ const data = {
   },
   'search-panel': {
     'search-files': 'Search Files',
+    'replace-files': 'Replace Files',
     'placeholder-search': 'Search',
+    'placeholder-replace': 'Replace',
+    'replace-confirm-title': 'Replace Files',
+    'replace-confirm-content': 'Are you sure want to replace all matched files (%s)? This operation cannot be undone.',
+    'replace-all': 'Replace All',
     'for-history': '(⇅ for history)',
     'files-to-include': 'Files to include',
     'files-to-exclude': 'Files to exclude',
@@ -718,6 +735,7 @@ const data = {
     'plugin_document-history-stack_forward': 'Forward to Next Document',
     'plugin_editor_focus-editor': 'Focus Editor',
     'plugin_switch-todo_switch': 'Check / Uncheck Todo (need to select the content in the editor first)',
+    'plugin_view-links_view-document-links': 'View Links of Current Document',
     'view_enter-presentation': 'Enter Presentation Mode',
     'workbench_show-quick-open': 'Show Quick Open',
     'workbench_toggle-outline': 'Show / Hide Outline',
@@ -769,6 +787,29 @@ const data = {
     'copy-image': 'Copy Image',
     'delete-image': 'Delete Image',
     'open-in-new-tab': 'Open in New Tab',
+  },
+  'index-status': {
+    'switch-repository-html': 'Please <a href="javascript:void(0)" data-command="switch-repository">Switch to the repository [<strong>%s</strong>]</a> to use this feature.',
+    'enable-indexing-html': 'Please <a href="javascript:void(0)" data-command="enable-indexing">enable indexing for the repository [<strong>%s</strong>]</a> to use this feature.',
+    'indexing': 'Indexing...',
+    'indexed': 'Indexed',
+  },
+  'view-links': {
+    'view-links': 'View Links',
+    'links': 'Links',
+    'resources': 'Resources',
+    'back-links': 'Back Links',
+    'no-result': 'No Result',
+    'links-in': 'Links in "%s"',
+    'resources-in': 'Resources in "%s"',
+    'back-links-for': 'Back Links for "%s"',
+    're-index': 'Re-index',
+    'disable-index': 'Disable Index',
+  },
+  'insert-table': {
+    'insert-table': 'Insert Table',
+    'insert': 'Insert',
+    'compact': 'Compact',
   },
 }
 

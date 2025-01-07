@@ -19,7 +19,8 @@ import * as api from '@fe/support/api'
 import { fileToBase64URL, getLogger } from '@fe/utils'
 import { isWindows } from '@fe/support/env'
 import CreateFilePanel from '@fe/components/CreateFilePanel.vue'
-import { getAllRepos, getRepo, inputPassword, openPath, showItemInFolder } from './base'
+import { inputPassword, openPath, showItemInFolder } from './base'
+import { getAllRepos, getRepo } from './repo'
 import { $$t, t } from './i18n'
 import { getSetting, setSetting } from './setting'
 
@@ -30,6 +31,8 @@ const supportedExtensionCache = {
   sortedExtensions: [] as string[],
   types: new Map<string, { type: DocType, category: DocCategory }>()
 }
+
+type PathItemWithType = PathItem & { type?: Doc['type'] }
 
 function decrypt (content: any, password: string) {
   if (!password) {
@@ -130,8 +133,8 @@ export function isEncrypted (doc?: Pick<Doc, 'path' | 'type'> | null): boolean {
  * @param docB
  * @returns
  */
-export function isSameRepo (docA: Doc | null | undefined, docB: Doc | null | undefined) {
-  return docA && docB && docA.repo === docB.repo
+export function isSameRepo (docA: PathItemWithType | null | undefined, docB: PathItemWithType | null | undefined) {
+  return docA && docB && docA.type === docB.type && docA.repo === docB.repo
 }
 
 /**
@@ -140,8 +143,8 @@ export function isSameRepo (docA: Doc | null | undefined, docB: Doc | null | und
  * @param docB
  * @returns
  */
-export function isSameFile (docA: PathItem | null | undefined, docB: PathItem | null | undefined) {
-  return docA && docB && docA.repo === docB.repo && docA.path === docB.path
+export function isSameFile (docA: PathItemWithType | null | undefined, docB: PathItemWithType | null | undefined) {
+  return docA && docB && isSameRepo(docA, docB) && docA.path === docB.path
 }
 
 /**
@@ -150,8 +153,8 @@ export function isSameFile (docA: PathItem | null | undefined, docB: PathItem | 
  * @param docB
  * @returns
  */
-export function isSubOrSameFile (docA: PathItem | null | undefined, docB?: PathItem | null | undefined) {
-  return docA && docB && docA.repo === docB.repo &&
+export function isSubOrSameFile (docA: PathItemWithType | null | undefined, docB?: PathItemWithType | null | undefined) {
+  return docA && docB && isSameRepo(docA, docB) &&
   (
     isBelongTo(docA.path, docB.path) ||
     isSameFile(docA, docB)
@@ -163,8 +166,12 @@ export function isSubOrSameFile (docA: PathItem | null | undefined, docB?: PathI
  * @param doc
  * @returns
  */
-export function toUri (doc?: PathItem | null): string {
-  if (doc && doc.repo && doc.path) {
+export function toUri (doc?: PathItemWithType | null): string {
+  if (doc?.type && doc.type !== 'file') {
+    return URI.parse(`yank-note://${doc.type}/${doc.repo}/${doc.path.replace(/^\//, '')}`).toString()
+  }
+
+  if (doc && doc.type === 'file' && doc.repo && doc.path) {
     return URI.parse(`yank-note://${doc.repo}/${doc.path.replace(/^\//, '')}`).toString()
   } else {
     return 'yank-note://system/blank.md'
@@ -177,9 +184,9 @@ export function toUri (doc?: PathItem | null): string {
  * @param baseDoc
  * @returns
  */
-export async function createDoc (doc: Pick<Doc, 'repo' | 'path' | 'content'>, baseDoc: Doc): Promise<Doc>
-export async function createDoc (doc: Optional<Pick<Doc, 'repo' | 'path' | 'content'>, 'path'>, baseDoc?: Doc): Promise<Doc>
-export async function createDoc (doc: Optional<Pick<Doc, 'repo' | 'path' | 'content'>, 'path'>, baseDoc?: Doc) {
+export async function createDoc (doc: Pick<Doc, 'repo' | 'path' | 'content'>, baseDoc: Doc & { type: 'file' | 'dir' }): Promise<Doc>
+export async function createDoc (doc: Optional<Pick<Doc, 'repo' | 'path' | 'content'>, 'path'>, baseDoc?: Doc & { type: 'file' | 'dir' }): Promise<Doc>
+export async function createDoc (doc: Optional<Pick<Doc, 'repo' | 'path' | 'content'>, 'path'>, baseDoc?: Doc & { type: 'file' | 'dir' }) {
   const docType = shallowRef<DocType | null | undefined>(null)
 
   const othersDocCategoryName = '__others__'
@@ -318,9 +325,9 @@ export async function createDoc (doc: Optional<Pick<Doc, 'repo' | 'path' | 'cont
  * @param baseDoc
  * @returns
  */
-export async function createDir (doc: Pick<Doc, 'repo' | 'path' | 'content'>, baseDoc: Doc): Promise<Doc>
-export async function createDir (doc: Optional<Pick<Doc, 'repo' | 'path' | 'content'>, 'path'>, baseDoc?: Doc): Promise<Doc>
-export async function createDir (doc: Optional<Pick<Doc, 'repo' | 'path' | 'content'>, 'path'>, baseDoc?: Doc) {
+export async function createDir (doc: Pick<Doc, 'repo' | 'path' | 'content'>, baseDoc: Doc & { type: 'file' | 'dir' }): Promise<Doc>
+export async function createDir (doc: Optional<Pick<Doc, 'repo' | 'path' | 'content'>, 'path'>, baseDoc?: Doc & { type: 'file' | 'dir' }): Promise<Doc>
+export async function createDir (doc: Optional<Pick<Doc, 'repo' | 'path' | 'content'>, 'path'>, baseDoc?: Doc & { type: 'file' | 'dir' }) {
   if (!doc.path) {
     if (baseDoc) {
       const currentPath = baseDoc.type === 'dir' ? baseDoc.path : dirname(baseDoc.path)
@@ -369,6 +376,8 @@ export async function createDir (doc: Optional<Pick<Doc, 'repo' | 'path' | 'cont
  * @returns
  */
 export async function duplicateDoc (originDoc: Doc, newPath?: string) {
+  if (originDoc.type !== 'file') throw new Error('Invalid document type')
+
   newPath ??= await useModal().input({
     title: t('document.duplicate-dialog.title'),
     hint: t('document.duplicate-dialog.hint'),
@@ -441,10 +450,24 @@ export async function deleteDoc (doc: PathItem, skipConfirm = false) {
   }
 
   try {
-    await api.deleteFile(doc)
+    await api.deleteFile(doc, true)
   } catch (error: any) {
-    useToast().show('warning', error.message)
-    throw error
+    const force = await useModal().confirm({
+      title: t('document.force-delete-dialog.title'),
+      content: t('document.force-delete-dialog.content', doc.path),
+    })
+
+    if (force) {
+      try {
+        await api.deleteFile(doc, false)
+      } catch (err: any) {
+        useToast().show('warning', err.message)
+        throw error
+      }
+    } else {
+      useToast().show('warning', error.message)
+      throw error
+    }
   }
 
   triggerHook('DOC_DELETED', { doc })
@@ -693,7 +716,7 @@ async function _switchDoc (doc: Doc | null, opts?: SwitchDocOpts): Promise<void>
 
   logger.debug('switchDoc', doc)
 
-  if (doc && doc.type !== 'file') {
+  if (doc && doc.type === 'dir') {
     throw new Error('Invalid document type')
   }
 
@@ -716,15 +739,15 @@ async function _switchDoc (doc: Doc | null, opts?: SwitchDocOpts): Promise<void>
   })
 
   if (doc) {
-    doc.plain = !!(extensions.supported(doc.name) || resolveDocType(doc.name)?.type?.plain)
+    doc.plain = doc.type === 'file' && (!!(extensions.supported(doc.name) || resolveDocType(doc.name)?.type?.plain))
     doc.absolutePath = getAbsolutePath(doc)
   }
 
   await triggerHook('DOC_BEFORE_SWITCH', { doc, opts }, { breakable: true, ignoreError: true })
 
   try {
-    if (!doc) {
-      store.state.currentFile = null
+    if (!doc || doc.type !== 'file') {
+      store.state.currentFile = doc
       store.state.currentContent = ''
       triggerHook('DOC_SWITCHED', { doc: null, opts })
       return
@@ -855,7 +878,7 @@ export function getMarkedFiles () {
 }
 
 export function isMarked (doc: PathItem & { type?: Doc['type'] }) {
-  if (doc.type === 'dir') {
+  if (doc.type !== 'file') {
     return false
   }
 

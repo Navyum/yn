@@ -1,5 +1,5 @@
 import { app, shell } from 'electron'
-import chokidar from 'chokidar'
+import ch from 'child_process'
 import orderBy from 'lodash/orderBy'
 import * as fs from 'fs-extra'
 import * as path from 'path'
@@ -12,8 +12,38 @@ import { createStreamResponse } from '../helper'
 import { HISTORY_DIR } from '../constant'
 import config from '../config'
 import repository from './repository'
+import type { WatchOpts } from './watch-worker'
+
+// make sure watch-worker.ts is compiled
+import './watch-worker'
 
 const readonly = !!(yargs.argv.readonly)
+
+let _watchProcess: ch.ChildProcess | null = null
+let watchGid = 0
+
+function getWatchProcess () {
+  if (!_watchProcess) {
+    console.log('start watch-worker process')
+    _watchProcess = ch.fork(
+      path.join(__dirname, '/watch-worker.js'),
+      {
+        env: { ELECTRON_RUN_AS_NODE: '1' },
+        // execArgv: ['--inspect']
+      }
+    )
+
+    _watchProcess.on('exit', () => {
+      _watchProcess = null
+    })
+
+    _watchProcess.on('error', () => {
+      _watchProcess = null
+    })
+  }
+
+  return _watchProcess
+}
 
 interface XFile {
   name: string;
@@ -152,6 +182,10 @@ export function read (repo: string, p: string): Promise<Buffer> {
   return withRepo(repo, (_, targetPath) => fs.readFile(targetPath), p)
 }
 
+export function createReadStream (repo: string, p: string, options?: Parameters<typeof fs.createReadStream>[1]): Promise<ReturnType<typeof fs.createReadStream>> {
+  return withRepo(repo, async (_, targetPath) => fs.createReadStream(targetPath, options), p)
+}
+
 export function stat (repo: string, p: string) {
   return withRepo(repo, async (_, targetPath) => {
     const stat = await fs.stat(targetPath)
@@ -204,12 +238,16 @@ export function write (repo: string, p: string, content: any): Promise<string> {
   }, p)
 }
 
-export async function rm (repo: string, p: string) {
+export async function rm (repo: string, p: string, trash = true) {
   if (readonly) throw new Error('Readonly')
 
   await withRepo(repo, async (repoPath, targetPath) => {
     if (targetPath !== repoPath) {
-      await shell.trashItem(targetPath)
+      if (trash) {
+        await shell.trashItem(targetPath)
+      } else {
+        await fs.remove(targetPath)
+      }
     }
   }, p)
 }
@@ -266,6 +304,11 @@ export async function upload (repo: string, buffer: Buffer, filePath: string, if
       let i = 1
       while (await exists(repo, newFilePath)) {
         i++
+
+        if (i > 10000) {
+          throw new Error('Too many files with the same name')
+        }
+
         const seq = i > 100 ? Math.floor(Math.random() * 1000000) : i
         newFilePath = path.join(dir, base + `-${seq}` + ext).replace(/\\/g, '/')
       }
@@ -287,7 +330,9 @@ async function travels (
   basePath: string,
   data: TreeItem,
   excludeRegex: RegExp,
+  includeRegex: RegExp | null,
   order: Order,
+  noEmptyDir: boolean
 ): Promise<void> {
   const list = await fs.readdir(location)
 
@@ -296,10 +341,21 @@ async function travels (
 
   await Promise.all(list.map(async name => {
     const p = path.join(location, name)
-    const stat = await fs.stat(p)
+    const stat = await fs.stat(p).catch(e => {
+      console.error('travels', p, e)
+      return null
+    })
+
+    if (!stat) {
+      return
+    }
 
     if (stat.isFile()) {
       if (excludeRegex.test(name)) {
+        return
+      }
+
+      if (includeRegex && !includeRegex.test(name)) {
         return
       }
 
@@ -313,7 +369,12 @@ async function travels (
         level: data.level + 1,
       })
     } else if (stat.isDirectory()) {
-      if (excludeRegex.test(name + '/')) {
+      const dirName = name + '/'
+      if (excludeRegex.test(dirName)) {
+        return
+      }
+
+      if (includeRegex && !includeRegex.test(dirName)) {
         return
       }
 
@@ -328,8 +389,11 @@ async function travels (
         level: data.level + 1,
       }
 
-      dirs.push(dir)
-      await travels(p, repo, basePath, dir, excludeRegex, order)
+      await travels(p, repo, basePath, dir, excludeRegex, includeRegex, order, noEmptyDir)
+
+      if (!(noEmptyDir && dir.children!.length === 0)) {
+        dirs.push(dir)
+      }
     }
   }))
 
@@ -350,7 +414,11 @@ async function travels (
     .concat(sort(files, order))
 }
 
-export async function tree (repo: string, order: Order): Promise<TreeItem[]> {
+export async function tree (repo: string, order: Order, include?: string | RegExp, noEmptyDir?: boolean): Promise<TreeItem[]> {
+  if (repo.startsWith(ROOT_REPO_NAME_PREFIX)) {
+    return []
+  }
+
   const data: TreeItem[] = [{
     name: '/',
     type: 'dir',
@@ -360,7 +428,9 @@ export async function tree (repo: string, order: Order): Promise<TreeItem[]> {
     level: 1,
   }]
 
-  await withRepo(repo, async repoPath => travels(repoPath, repo, repoPath, data[0], getExcludeRegex(), order))
+  const includeRegex = include ? new RegExp(include) : null
+
+  await withRepo(repo, async repoPath => travels(repoPath, repo, repoPath, data[0], getExcludeRegex(), includeRegex, order, !!noEmptyDir))
 
   return data
 }
@@ -510,38 +580,72 @@ export async function commentHistoryVersion (repo: string, p: string, version: s
   }, p)
 }
 
-export async function watchFile (repo: string, p: string, options: chokidar.WatchOptions) {
-  return withRepo(repo, async (_, filePath) => {
-    const watcher = chokidar.watch(filePath, options)
+export async function watchFile (repo: string, p: string | string[], options: WatchOpts) {
+  return withRepo(repo, async (_, ...args) => {
+    const filePath = args.length === 1 ? args[0] : args
+
     const { response, enqueue, close } = createStreamResponse()
 
-    watcher.on('all', (eventName, path, stats) => {
-      enqueue('result', { eventName, path, stats })
-    })
+    type Message = { id: number, type: 'init' | 'stop' | 'enqueue', payload?: any }
 
-    const _close = () => {
-      close()
-      watcher.close()
-      app.off('quit', _close)
+    watchGid++
+
+    const id = watchGid
+
+    const wp = getWatchProcess()
+
+    wp.send({ id, type: 'init', payload: { filePath, options } } satisfies Message)
+
+    const onMessage = (message: Message) => {
+      if (message.id !== id) {
+        return
+      }
+
+      if (message.type === 'enqueue') {
+        try {
+          if (!response.closed) {
+            enqueue(message.payload.type, message.payload.data)
+          }
+        } catch (error) {
+          console.error('watchFile', filePath, 'enqueue error', error)
+        }
+      }
     }
 
-    app.on('quit', _close)
-
-    watcher.on('error', err => {
+    const onError = (err: any) => {
       console.error('watchFile', filePath, 'error', err)
-      enqueue('error', err)
-    })
+      _stop()
+    }
+
+    const onExit = (code: any) => {
+      close()
+      console.log('watchFile', id, filePath, 'exit', code)
+    }
+
+    const _stop = () => {
+      console.log('watchFile', id, filePath, 'stop')
+      wp.send({ id, type: 'stop' } satisfies Message)
+      app.off('quit', _stop)
+      wp.off('message', onMessage)
+      wp.off('error', onError)
+      wp.off('exit', onExit)
+    }
+
+    wp.on('message', onMessage)
+    wp.on('error', onError)
+    wp.on('exit', onExit)
+    app.on('quit', _stop)
 
     response.once('close', () => {
-      console.log('watchFile', filePath, 'close')
-      _close()
+      console.log('watchFile', id, filePath, 'response close')
+      _stop()
     })
 
-    response.on('error', (err) => {
-      console.warn('watchFile', filePath, 'error', err)
-      _close()
+    response.once('error', (err) => {
+      console.warn('watchFile', id, filePath, 'error', err)
+      _stop()
     })
 
     return response
-  }, p)
+  }, ...(Array.isArray(p) ? p : [p]))
 }

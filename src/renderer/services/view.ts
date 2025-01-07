@@ -18,6 +18,7 @@ export type Heading = {
   tag: string;
   class: string;
   text: string;
+  id: string;
   level: number;
   sourceLine: number;
   activated?: boolean;
@@ -163,17 +164,27 @@ export function getScrollTop () {
 
 export function getPreviewStyles () {
   let styles = `article.${DOM_CLASS_NAME.PREVIEW_MARKDOWN_BODY} { max-width: 1024px; margin: 20px auto; }`
-  Array.prototype.forEach.call(renderIframe.contentDocument!.styleSheets, item => {
-    // inject global styles, normalize.css
-    const flag = item.cssRules[0] &&
-      item.cssRules[0].selectorText === 'html' &&
-      item.cssRules[0].cssText === 'html { line-height: 1.15; text-size-adjust: 100%; }'
 
-    Array.prototype.forEach.call(item.cssRules, (rule) => {
+  const getCssRules = (item: CSSStyleSheet) => {
+    try {
+      return item.cssRules
+    } catch (error) {
+      console.warn('Failed to get css rules', error)
+      return []
+    }
+  }
+
+  Array.prototype.forEach.call(renderIframe.contentDocument!.styleSheets, (item: CSSStyleSheet) => {
+    const node = item.ownerNode as HTMLElement | null
+    const flag = (node?.tagName === 'STYLE' && node.getAttribute(DOM_ATTR_NAME.SKIP_EXPORT) !== 'true') ||
+      Array.prototype.some.call(getCssRules(item), (rule: CSSRule) => {
+        return rule.cssText.includes('--common-styles')
+      })
+
+    Array.prototype.forEach.call(getCssRules(item), (rule) => {
       if (rule.selectorText && (
         flag ||
-        rule.selectorText.includes('.' + DOM_CLASS_NAME.PREVIEW_MARKDOWN_BODY) ||
-        rule.selectorText.startsWith('.katex')
+        rule.selectorText.includes('.' + DOM_CLASS_NAME.PREVIEW_MARKDOWN_BODY)
       )) {
         // skip contain rules
         if (rule?.style?.getPropertyValue('--skip-contain')) {
@@ -220,6 +231,10 @@ export async function getContentHtml (options: BuildInHookTypes['VIEW_ON_GET_HTM
 
       if (node.tagName !== 'ABBR') {
         node.removeAttribute('title')
+      }
+
+      if (node.tagName === 'A' && node.getAttribute('href')?.startsWith('#')) {
+        node.removeAttribute('target')
       }
 
       const len = node.children.length
@@ -305,6 +320,7 @@ export function getHeadings (withActivated = false): Heading[] {
     return {
       tag,
       class: `heading ${node.className} tag-${tag}`,
+      id: node.id,
       text: node.textContent || '',
       level: tags.indexOf(tag),
       sourceLine: parseInt(node.dataset.sourceLine || '0'),
@@ -462,14 +478,21 @@ export function getRenderIframe (): Promise<HTMLIFrameElement> {
 /**
  * Add styles to default preview.
  * @param style
+ * @param skipExport
  * @return css dom
  */
-export async function addStyles (style: string) {
+export async function addStyles (style: string, skipExport = false) {
   const iframe = await getRenderIframe()
   const document = iframe.contentDocument!
   const css = document.createElement('style')
   css.id = 'style-' + Math.random().toString(36).slice(2, 9) + '-' + Date.now()
+
+  if (skipExport) {
+    css.setAttribute(DOM_ATTR_NAME.SKIP_EXPORT, 'true')
+  }
+
   css.innerHTML = style
+
   document.head.appendChild(css)
 
   return css

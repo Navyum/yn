@@ -140,7 +140,7 @@ export async function readFile (file: PathItem, asBase64 = false): Promise<FileR
  * @param asBase64
  * @returns
  */
-export async function writeFile (file: Doc, content = '', asBase64 = false): Promise<{ hash: string, stat: FileStat }> {
+export async function writeFile (file: Pick<Doc, 'repo' | 'path' | 'contentHash'>, content = '', asBase64 = false): Promise<{ hash: string, stat: FileStat }> {
   const { repo, path, contentHash } = file
   const { data } = await fetchHttp('/api/file', {
     method: 'POST',
@@ -184,11 +184,12 @@ export async function copyFile (file: FileItem, newPath: string): Promise<ApiRes
 /**
  * Delete a file or dir.
  * @param file
+ * @param trash Move to trash or not, default is true.
  * @returns
  */
-export async function deleteFile (file: PathItem): Promise<ApiResult<any>> {
+export async function deleteFile (file: PathItem, trash = true): Promise<ApiResult<any>> {
   const { path, repo } = file
-  return fetchHttp(`/api/file?path=${encodeURIComponent(path)}&repo=${encodeURIComponent(repo)}`, { method: 'DELETE' })
+  return fetchHttp(`/api/file?path=${encodeURIComponent(path)}&repo=${encodeURIComponent(repo)}&trash=${trash}`, { method: 'DELETE' })
 }
 
 export async function fetchHistoryList (file: PathItem): Promise<{size: number, list: {name: string, comment: string}[]}> {
@@ -226,10 +227,13 @@ export async function commentHistoryVersion (file: PathItem, version: string, ms
 /**
  * Fetch file tree from a repository.
  * @param repo
+ * @param sort
+ * @param include
+ * @param noEmptyDir
  * @returns
  */
-export async function fetchTree (repo: string, sort: FileSort): Promise<Components.Tree.Node[]> {
-  const result = await fetchHttp(`/api/tree?repo=${encodeURIComponent(repo)}&sort=${sort.by}-${sort.order}`)
+export async function fetchTree (repo: string, sort: FileSort, include?: string, noEmptyDir?: boolean): Promise<Components.Tree.Node[]> {
+  const result = await fetchHttp(`/api/tree?repo=${encodeURIComponent(repo)}&sort=${sort.by}-${sort.order}&include=${encodeURIComponent(include || '')}&noEmptyDir=${noEmptyDir || false}`)
   return result.data
 }
 
@@ -281,14 +285,14 @@ export async function choosePath (options: Record<string, any>): Promise<{ cance
 }
 
 type SearchReturn = (
-  onResult: (result: ISerializedFileMatch[]) => void,
-  onMessage?: (message: IProgressMessage) => void
+  onResult: (result: ISerializedFileMatch[]) => void | Promise<void>,
+  onMessage?: (message: IProgressMessage) => void | Promise<void>
 ) => Promise<ISerializedSearchSuccess | null>
 
 async function readReader<R = any, S = any, M = any> (
   reader: ReadableStreamDefaultReader,
-  onResult: (result: R) => void,
-  onMessage?: (message: M) => void
+  onResult: (result: R) => void | Promise<void>,
+  onMessage?: (message: M) => void | Promise<void>
 ): Promise<S | null> {
   let val = ''
 
@@ -314,10 +318,10 @@ async function readReader<R = any, S = any, M = any> (
 
       switch (data.type) {
         case 'result':
-          onResult(data.payload)
+          await onResult(data.payload)
           break
         case 'message':
-          onMessage?.(data.payload)
+          await onMessage?.(data.payload)
           break
         case 'done':
           return data.payload
@@ -360,9 +364,9 @@ export async function search (controller: AbortController, query: ITextQuery): P
  */
 export async function watchFs (
   repo: string,
-  path: string,
-  options: WatchOptions,
-  onResult: (result: { eventName: 'add' | 'change' | 'unlink' | 'addDir' | 'unlinkDir', path: string, stats?: Stats }) => void,
+  path: string | string[],
+  options: WatchOptions & { mdContent?: boolean, mdFilesOnly?: boolean },
+  onResult: (result: { eventName: 'add' | 'change' | 'unlink' | 'addDir' | 'unlinkDir', path: string, content?: string | null, stats?: Stats } | { eventName: 'ready' }) => void,
   onError: (error: Error) => void
 ) {
   const controller: AbortController = new AbortController()
@@ -438,6 +442,22 @@ export async function deleteTmpFile (name: string): Promise<ApiResult<any>> {
     `/api/tmp-file?name=${encodeURIComponent(name)}`,
     { method: 'delete' }
   )
+}
+
+/**
+ * List user dir.
+ * @param name
+ * @returns
+ */
+export async function listUserDir (name: string, recursive = false): Promise<{
+  name: string,
+  path: string,
+  parent: string,
+  isFile: boolean,
+  isDir: boolean,
+}[]> {
+  const result = await fetchHttp(`/api/user-dir?name=${encodeURIComponent(name)}&recursive=${recursive}`)
+  return result.data
 }
 
 /**

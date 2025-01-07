@@ -66,6 +66,7 @@ export async function upload (file: File, belongDoc: Pick<Doc, 'repo' | 'path'>,
     .replaceAll('{docBasename}', parentName.startsWith('.') ? 'upload' : filenamify(parentNameWithoutMdExt))
     .replaceAll('{date}', dayjs().format('YYYY-MM-DD'))
     .replaceAll('{docHash}', binMd5(parentNameWithoutMdExt).slice(0, 8))
+    .replaceAll('{docPath}', belongDoc.path)
 
   let path: string = resolve(parentPath, assetsDir, filename)
 
@@ -162,23 +163,6 @@ export async function reloadMainWindow () {
 }
 
 /**
- * Get all repositories
- * @returns
- */
-export function getAllRepos () {
-  return getSetting('repos', [])
-}
-
-/**
- * get repo by name
- * @param name
- * @returns
- */
-export function getRepo (name: string) {
-  return getAllRepos().find(x => x.name === name)
-}
-
-/**
  * Read content from clipboard
  * @param callback
  * @returns
@@ -230,15 +214,6 @@ export async function writeToClipboard (type: string, value: any) {
   return (navigator.clipboard as any).write([new (window as any).ClipboardItem({
     [type]: new Blob([value], { type })
   })])
-}
-
-/**
- * Get Server Timestamp
- * @returns timestamp in ms
- */
-export async function getServerTimestamp () {
-  const date = (await api.proxyFetch('https://www.baidu.com/')).headers.get('x-origin-date')
-  return dayjs(date || undefined).valueOf()
 }
 
 /**

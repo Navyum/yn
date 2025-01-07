@@ -10,9 +10,8 @@ import * as storage from '@fe/utils/storage'
 import { basename } from '@fe/utils/path'
 import type { BuildInSettings, Doc, FrontMatterAttrs, Repo } from '@fe/types'
 import { reloadMainWindow } from '@fe/services/base'
-import { createDoc, isMarked, markDoc, switchDoc, toUri, unmarkDoc } from '@fe/services/document'
-import { refreshTree } from '@fe/services/tree'
-import { whenEditorReady } from '@fe/services/editor'
+import { createDoc, isMarkdownFile, isMarked, markDoc, switchDoc, toUri, unmarkDoc } from '@fe/services/document'
+import { DEFAULT_MARKDOWN_EDITOR_NAME, whenEditorReady } from '@fe/services/editor'
 import { getLanguage, setLanguage, t } from '@fe/services/i18n'
 import { fetchSettings } from '@fe/services/setting'
 import { getPurchased } from '@fe/others/premium'
@@ -22,11 +21,14 @@ import { toggleOutline } from '@fe/services/workbench'
 import * as view from '@fe/services/view'
 import * as tree from '@fe/services/tree'
 import * as editor from '@fe/services/editor'
+import * as indexer from '@fe/services/indexer'
+import * as repo from '@fe/services/repo'
 import plugins from '@fe/plugins'
 import ctx from '@fe/context'
 import ga from '@fe/support/ga'
 import * as jsonrpc from '@fe/support/jsonrpc'
 import { getLogger } from '@fe/utils'
+import { removeOldDatabases } from './others/db'
 
 const logger = getLogger('startup')
 
@@ -88,6 +90,12 @@ function switchDefaultPreviewer () {
   }
 }
 
+let autoRefreshedAt = 0
+const refreshTree = async () => {
+  await tree.refreshTree()
+  autoRefreshedAt = Date.now()
+}
+
 registerHook('STARTUP', syncDomPremiumFlag)
 registerHook('PREMIUM_STATUS_CHANGED', syncDomPremiumFlag)
 registerHook('I18N_CHANGE_LANGUAGE', view.refresh)
@@ -97,6 +105,14 @@ registerHook('DOC_CREATED', refreshTree)
 registerHook('DOC_DELETED', refreshTree)
 registerHook('DOC_MOVED', refreshTree)
 registerHook('DOC_SWITCH_FAILED', refreshTree)
+
+registerHook('INDEXER_FS_CHANGE', async () => {
+  if (Date.now() - autoRefreshedAt > 3000) {
+    await refreshTree()
+    autoRefreshedAt = 0
+  }
+})
+
 registerHook('DOC_SWITCH_FAILED', async (payload?: { doc?: Doc | null, message: string }) => {
   if (payload && payload.doc && payload.message?.includes('NOENT')) {
     unmarkDoc(payload.doc)
@@ -131,6 +147,11 @@ registerHook('SETTING_FETCHED', () => {
       setTheme('light')
     })
   }
+
+  setTimeout(() => {
+    // reset current repo to change repo setting
+    repo.setCurrentRepo(store.state.currentRepo?.name)
+  }, 0)
 })
 
 registerHook('SETTING_CHANGED', ({ schema, changedKeys }) => {
@@ -150,7 +171,10 @@ registerHook('SETTING_CHANGED', ({ schema, changedKeys }) => {
   }
 
   if (changedKeys.includes('tree.exclude')) {
-    tree.refreshTree()
+    refreshTree()
+    setTimeout(() => {
+      indexer.triggerWatchCurrentRepo()
+    }, 500)
   }
 })
 
@@ -200,9 +224,21 @@ registerHook('DOC_PRE_ENSURE_CURRENT_FILE_SAVED', async () => {
   }
 })
 
+editor.registerCustomEditor({
+  name: DEFAULT_MARKDOWN_EDITOR_NAME,
+  displayName: t('editor.default-editor'),
+  component: null,
+  when ({ doc }) {
+    return !!(doc && isMarkdownFile(doc))
+  }
+})
+
 store.watch(() => store.state.currentRepo, (val) => {
   toggleOutline(false)
   document.documentElement.setAttribute('repo-name', val?.name || '')
+  setTimeout(() => {
+    indexer.triggerWatchCurrentRepo()
+  }, 1000)
 }, { immediate: true })
 
 store.watch(() => store.state.currentFile, (val) => {
@@ -246,7 +282,11 @@ whenEditorReady().then(() => {
 
 // json-rpc
 
-jsonrpc.init({ ctx })
+jsonrpc.init({ ctx }, whenEditorReady())
+
+setTimeout(() => {
+  removeOldDatabases()
+}, 20000)
 
 // google analytics
 

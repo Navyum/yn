@@ -3,7 +3,7 @@
     <div class="wrapper">
       <div class="title-bar">
         <h3>{{ $t('keyboard-shortcuts.keyboard-shortcuts') }}</h3>
-        <group-tabs :tabs="tabs" v-model="tab" />
+        <group-tabs :tabs="tabs" size="small" v-model="tab" />
         <input v-model="filterStr" :placeholder="$t('keyboard-shortcuts.search')" />
       </div>
       <div class="list" ref="listRef">
@@ -378,7 +378,7 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@import '@fe/styles/mixins.scss';
+@use '@fe/styles/mixins.scss' as *;
 
 .wrapper {
   width: 90vw;
@@ -412,19 +412,6 @@ onUnmounted(() => {
     right: 0;
     max-width: 200px;
     font-size: 14px !important;
-  }
-
-  .tabs {
-    display: inline-flex;
-    margin-bottom: 0;
-    z-index: 1;
-    flex: none;
-    justify-self: center;
-
-    ::v-deep(.tab) {
-      line-height: 1.5;
-      font-size: 14px;
-    }
   }
 }
 
@@ -504,7 +491,6 @@ table {
   }
 
   a {
-    text-decoration: none;
     margin-right: 8px;
     font-size: 14px;
   }
@@ -548,7 +534,7 @@ table {
   height: 100%;
   top: 0;
   left: 0;
-  z-index: 900000;
+  z-index: 210000000;
   display: flex;
   flex-direction: column;
   align-items: center;

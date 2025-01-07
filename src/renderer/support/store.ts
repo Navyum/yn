@@ -1,6 +1,6 @@
 import { orderBy, pick } from 'lodash-es'
 import * as storage from '@fe/utils/storage'
-import type { Components, Doc, FileSort, Repo } from '@fe/types'
+import type { Components, Doc, FileSort, IndexStatus, Repo } from '@fe/types'
 import { computed, reactive, watch, watchEffect } from 'vue'
 
 export const initState = {
@@ -23,6 +23,7 @@ export const initState = {
   currentContent: '',
   inComposition: false,
   currentRepo: storage.get<Repo>('currentRepo'),
+  currentRepoIndexStatus: null as { repo: string, status: IndexStatus} | null,
   currentFile: undefined as Doc | null | undefined,
   recentOpenTime: storage.get<Record<string, number>>('recentOpenTime', {}),
   tabs: storage.get<Components.FileTabs.Item[]>('tabs', []),
@@ -94,7 +95,7 @@ watchEffect(() => {
   const data = state.currentFile
   storage.set('currentFile', pick(data, 'repo', 'path', 'type', 'name'))
 
-  if (data && !data.repo.startsWith('__')) { // record recent open time, except for repo starts with '__'
+  if (data && data.type === 'file' && !data.repo.startsWith('__')) { // record recent open time, except for repo starts with '__'
     const record: Record<string, number> = {
       ...(state.recentOpenTime || {}),
       [`${data.repo}|${data.path}`]: Date.now()
@@ -106,4 +107,8 @@ watchEffect(() => {
 
     storage.set('recentOpenTime', state.recentOpenTime)
   }
+})
+
+watch(() => state.currentRepo, () => {
+  state.currentRepoIndexStatus = null
 })

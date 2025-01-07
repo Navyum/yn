@@ -47,6 +47,8 @@ const data: BaseLanguage = {
   'can-not-edit-this-file-type': '不能编辑此类型文件',
   'read-only-mode-desc': '当前是只读模式，不可编辑',
   'trigger-suggestions': '触发提示',
+  'table-of-contents': '目录',
+  'text-comparator': '文本比较器',
   'premium': {
     'confetti': '彩色纸屑',
     'need-purchase': '[%s] 需要高级版',
@@ -211,6 +213,10 @@ const data: BaseLanguage = {
       'title': '删除文件',
       'content': '确定要删除 [%s] 吗？'
     },
+    'force-delete-dialog': {
+      'title': '删除文件',
+      'content': '移动到回收站失败，是否要直接删除 [%s]？'
+    },
     'move-dialog': {
       'title': '移动文件',
       'content': '新的路径'
@@ -261,6 +267,7 @@ const data: BaseLanguage = {
       'share-preview': '分享预览',
       'print': '打印文档',
       'export': '导出文档',
+      'open-text-comparator': '打开文本比较器',
     },
     'document-info': {
       'selected': '已选择',
@@ -353,6 +360,7 @@ const data: BaseLanguage = {
       'zoom': '缩放',
       'use-browser': '将使用浏览器打印功能',
       'include-bg': '包含背景',
+      'generate-document-outline': '生成文档大纲',
     },
     'use-html': '使用渲染后的 HTML 转换',
     'use-markdown': '使用 Markdown 转换',
@@ -370,6 +378,9 @@ const data: BaseLanguage = {
     'delete-warning': '确定要删除吗？',
     'error-choose-repo-path': '请选择储存位置',
     'change-keyboard-shortcuts': '更改键盘快捷键',
+    'reset-title': '重置为默认值 "%s"',
+    'reset-confirm-title': '注意',
+    'reset-confirm-desc': '确定要重置为默认值 "%s" 吗？',
     'schema': {
       'repos': {
         'repos': '仓库',
@@ -377,7 +388,8 @@ const data: BaseLanguage = {
         'name': '仓库名',
         'name-placeholder': '请输入',
         'path': '路径',
-        'path-placeholder': '请选择一个路径'
+        'path-placeholder': '请选择一个路径',
+        'enable-indexing': '启用索引',
       },
       'editor': {
         'mouse-wheel-zoom': '鼠标滚动缩放',
@@ -419,7 +431,7 @@ const data: BaseLanguage = {
       'language': '语言',
       'custom-css': '自定义 CSS',
       'assets-dir': '图片存放目录',
-      'assets-desc': '支持相对路径和绝对路径（限于仓库内部）,可用变量：docName, docBasename, docSlug, docHash, date',
+      'assets-desc': '支持相对路径和绝对路径（限于仓库内部）,可用变量：docName, docBasename, docSlug, docHash, docPath, date',
       'assets': {
         'path-type': '路径类型',
       },
@@ -447,7 +459,6 @@ const data: BaseLanguage = {
       'proxy': {
         'enabled': '启用代理',
         'server': '代理服务器',
-        'server-hint': '127.0.0.1:8080',
         'bypass-list': 'Bypass List',
         'pac-url': 'PAC URL',
       },
@@ -621,6 +632,7 @@ const data: BaseLanguage = {
     'type': '复制类型: ',
     'inline-style': '内联样式',
     'include-style': '包含样式',
+    'include-toc': '包含目录',
     'inline-image': '内联本地图片',
     'upload-image': '上传本地图片',
     'highlight-code': '高亮代码',
@@ -685,7 +697,12 @@ const data: BaseLanguage = {
   },
   'search-panel': {
     'search-files': '搜索文件',
+    'replace-files': '替换文件',
+    'replace-confirm-title': '替换文件',
+    'replace-confirm-content': '确定要替换所有匹配的文件（%s 个）吗？注意此操作不可撤销。',
     'placeholder-search': '搜索',
+    'placeholder-replace': '替换',
+    'replace-all': '全部替换',
     'for-history': '(⇅ 切换历史)',
     'files-to-include': '包含文件',
     'files-to-exclude': '排除文件',
@@ -719,6 +736,7 @@ const data: BaseLanguage = {
     'plugin_document-history-stack_forward': '前进到下一个文档',
     'plugin_editor_focus-editor': '聚焦编辑器',
     'plugin_switch-todo_switch': '勾选/取消勾选待办事项（需在编辑器中选中内容）',
+    'plugin_view-links_view-document-links': '查看文档链接',
     'view_enter-presentation': '进入演示模式',
     'workbench_show-quick-open': '显示快速跳转',
     'workbench_toggle-outline': '显示/隐藏目录',
@@ -770,6 +788,29 @@ const data: BaseLanguage = {
     'copy-image': '复制图片',
     'delete-image': '删除图片',
     'open-in-new-tab': '在新标签页中打开',
+  },
+  'index-status': {
+    'switch-repository-html': '请 <a href="javascript:void(0)" data-command="switch-repository">切换到仓库 [<strong>%s</strong>]</a> 来使用此功能。',
+    'enable-indexing-html': '请 <a href="javascript:void(0)" data-command="enable-indexing">为仓库 [<strong>%s</strong>] 启用索引</a> 来使用此功能。',
+    'indexing': '索引中……',
+    'indexed': '已索引',
+  },
+  'view-links': {
+    'view-links': '查看链接',
+    'links': '链接',
+    'resources': '资源',
+    'back-links': '反向链接',
+    'no-result': '无结果',
+    'links-in': '“%s”中的链接',
+    'resources-in': '“%s”中的资源',
+    'back-links-for': '“%s”的反向链接',
+    're-index': '重新索引',
+    'disable-index': '停用索引',
+  },
+  'insert-table': {
+    'insert-table': '插入表格',
+    'insert': '插入',
+    'compact': '紧凑',
   },
 }
 

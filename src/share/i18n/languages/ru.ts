@@ -47,6 +47,8 @@ const data: BaseLanguage = {
   'can-not-edit-this-file-type': 'Невозможно редактировать данный тип файла',
   'read-only-mode-desc': 'В настоящее время приложение находится в режиме "только для чтения".',
   'trigger-suggestions': 'Подсказки триггера',
+  'table-of-contents': 'Содержание',
+  'text-comparator': 'Сравнение текста',
   'premium': {
     'confetti': 'Конфетти',
     'need-purchase': 'Для [%s] требуется премиум',
@@ -211,6 +213,10 @@ const data: BaseLanguage = {
       'title': 'Удалить файл',
       'content': 'Вы уверены, что хотите удалить %s?'
     },
+    'force-delete-dialog': {
+      'title': 'Удалить файл',
+      'content': 'Перемещение в корзину не удалось, удалить [%s] напрямую?',
+    },
     'move-dialog': {
       'title': 'Переместить/переименовать файл',
       'content': 'Новый путь'
@@ -261,6 +267,7 @@ const data: BaseLanguage = {
       'share-preview': 'Поделиться',
       'print': 'Печать документа',
       'export': 'Экспорт документа',
+      'open-text-comparator': 'Открыть сравнение текста',
     },
     'document-info': {
       'selected': 'Выделено',
@@ -353,6 +360,7 @@ const data: BaseLanguage = {
       'zoom': 'Увеличение',
       'use-browser': 'Будет использоваться функция печати через браузер.',
       'include-bg': 'Включить фон',
+      'generate-document-outline': 'Создать конспект документа',
     },
     'use-html': 'Использовать отображаемый HTML',
     'use-markdown': 'Использовать исходный код разметки',
@@ -370,6 +378,9 @@ const data: BaseLanguage = {
     'delete-warning': 'Вы уверены, что хотите удалить этот узел?',
     'error-choose-repo-path': 'Пожалуйста, выберите путь к репозиторию',
     'change-keyboard-shortcuts': 'Изменить сочетания клавиш',
+    'reset-title': 'Сбросить на значение по умолчанию "%s"',
+    'reset-confirm-title': 'Внимание',
+    'reset-confirm-desc': 'Вы уверены, что хотите сбросить на значение по умолчанию "%s"?',
     'tabs': {
       'repos': 'Репозитории',
       'appearance': 'Внешний вид',
@@ -387,7 +398,8 @@ const data: BaseLanguage = {
         'name': 'Имя',
         'name-placeholder': 'Имя',
         'path': 'Путь',
-        'path-placeholder': 'Пожалуйста, выберите место хранения'
+        'path-placeholder': 'Пожалуйста, выберите место хранения',
+        'enable-indexing': 'Включить индексацию',
       },
       'editor': {
         'mouse-wheel-zoom': 'Масштабирование колёсиком мыши',
@@ -429,7 +441,7 @@ const data: BaseLanguage = {
       'language': 'Язык',
       'custom-css': 'Пользовательский CSS',
       'assets-dir': 'Папка для изображений',
-      'assets-desc': 'Относительный или абсолютный путь (в хранилище документов). Переменные: docName, docBasename, docSlug, docHash, date.',
+      'assets-desc': 'Относительный или абсолютный путь (в хранилище документов). Переменные: docName, docBasename, docSlug, docHash, docPath, date.',
       'assets': {
         'path-type': 'Тип пути',
       },
@@ -457,7 +469,6 @@ const data: BaseLanguage = {
       'proxy': {
         'enabled': 'Включено',
         'server': 'Прокси сервер',
-        'server-hint': '127.0.0.1:8080',
         'bypass-list': 'Cписок обходных адресов',
         'pac-url': 'PAC URL',
       },
@@ -621,6 +632,7 @@ const data: BaseLanguage = {
     'type': 'Тип копии: ',
     'inline-style': 'Встроенный стиль',
     'include-style': 'Включить стиль',
+    'include-toc': 'Включить содержание',
     'inline-image': 'Встроенное локальное изображение',
     'upload-image': 'Загрузить локальное изображение',
     'highlight-code': 'Выделить код',
@@ -685,7 +697,12 @@ const data: BaseLanguage = {
   },
   'search-panel': {
     'search-files': 'Поиск файлов',
+    'replace-files': 'Замена файлов',
+    'replace-confirm-title': 'Заменить файл',
+    'replace-confirm-content': 'Вы уверены, что хотите заменить все совпадения файлов (%s)? Обратите внимание, что это действие нельзя отменить.',
     'placeholder-search': 'Поиск',
+    'placeholder-replace': 'Замена',
+    'replace-all': 'Заменить все',
     'for-history': '(⇅ для истории)',
     'files-to-include': 'Файлы для включения',
     'files-to-exclude': 'Файлы для исключения',
@@ -719,6 +736,7 @@ const data: BaseLanguage = {
     'plugin_document-history-stack_forward': 'Перейти к следующему документу',
     'plugin_editor_focus-editor': 'Переключиться на редактор',
     'plugin_switch-todo_switch': 'Отметить/снять отметку с TODO (сначала необходимо выбрать содержимое в редакторе)',
+    'plugin_view-links_view-document-links': 'Показать ссылки на документ',
     'view_enter-presentation': 'Войти в режим презентации',
     'workbench_show-quick-open': 'Показать быстрое открытие',
     'workbench_toggle-outline': 'Показать/скрыть конспект',
@@ -770,6 +788,29 @@ const data: BaseLanguage = {
     'copy-image': 'Копировать изображение',
     'delete-image': 'Удалить изображение',
     'open-in-new-tab': 'Открыть в новой вкладке',
+  },
+  'index-status': {
+    'switch-repository-html': 'Пожалуйста, <a href="javascript:void(0)" data-command="switch-repository">переключитесь на репозиторий [<strong>%s</strong>]</a>, чтобы использовать эту функцию.',
+    'enable-indexing-html': 'Пожалуйста, <a href="javascript:void(0)" data-command="enable-indexing">включите индексацию для репозитория [<strong>%s</strong>]</a>, чтобы использовать эту функцию.',
+    'indexing': 'Индексация...',
+    'indexed': 'Индексировано',
+  },
+  'view-links': {
+    'view-links': 'Ссылки',
+    'links': 'Ссылки',
+    'resources': 'Ресурсы',
+    'back-links': 'Обратные ссылки',
+    'no-result': 'Нет результатов',
+    'links-in': 'Ссылки в “%s”',
+    'resources-in': 'Ресурсы в “%s”',
+    'back-links-for': 'Обратные ссылки для “%s”',
+    're-index': 'Переиндексировать',
+    'disable-index': 'Отключить индексацию',
+  },
+  'insert-table': {
+    'insert-table': 'Вставить таблицу',
+    'insert': 'Вставить',
+    'compact': 'Сжатая',
   },
 }
 

@@ -39,7 +39,7 @@ For more information on how to use the following functions, please see [characte
 - **To-do list:** support to display the to-do progress in the document. Click to quickly switch the to-do status.
 - **Quickly Open:** you can use shortcut key to open the file switch panel to quickly open files, tagged files, and full-text search for file contents.
 - **Integrated terminal:** support to open the terminal in the editor to quickly switch the current working directory
-- **Katex:** support katex expression
+- **LaTeX:** support LaTeX expression
 - **Style:** Markdown uses GitHub styles and features
 - **Repository:** multiple data locations can be defined for document classification
 - **External link conversion:** convert external link or Base64 pictures into local pictures
@@ -76,11 +76,21 @@ For more information on how to use the following functions, please see [characte
 
 ## Changelogs
 
-### [v3.76.2](https://github.com/purocean/yn/releases/tag/v3.76.2) 2024-09-14
+### [v3.79.1](https://github.com/purocean/yn/releases/tag/v3.79.1) 2025-01-02
 
-[Windows](https://github.com/purocean/yn/releases/download/v3.76.2/Yank-Note-win-x64-3.76.2.exe) | [macOS arm64](https://github.com/purocean/yn/releases/download/v3.76.2/Yank-Note-mac-arm64-3.76.2.dmg) | [macOS x64](https://github.com/purocean/yn/releases/download/v3.76.2/Yank-Note-mac-x64-3.76.2.dmg) | [Linux AppImage](https://github.com/purocean/yn/releases/download/v3.76.2/Yank-Note-linux-x86_64-3.76.2.AppImage) | [Linux deb](https://github.com/purocean/yn/releases/download/v3.76.2/Yank-Note-linux-amd64-3.76.2.deb)
+[Windows](https://github.com/purocean/yn/releases/download/v3.79.1/Yank-Note-win-x64-3.79.1.exe) | [macOS arm64](https://github.com/purocean/yn/releases/download/v3.79.1/Yank-Note-mac-arm64-3.79.1.dmg) | [macOS x64](https://github.com/purocean/yn/releases/download/v3.79.1/Yank-Note-mac-x64-3.79.1.dmg) | [Linux AppImage](https://github.com/purocean/yn/releases/download/v3.79.1/Yank-Note-linux-x86_64-3.79.1.AppImage) | [Linux deb](https://github.com/purocean/yn/releases/download/v3.79.1/Yank-Note-linux-amd64-3.79.1.deb)
 
-1. fix: correct rendering issue with PlantUML diagrams
+1. feat: Markdown `![]()` image syntax now supports local video and audio paths
+2. feat: Added the ability to preview video and audio files directly within the application
+3. feat: Optimized HTML parsing
+4. feat: Support for writing [mhchem](https://mhchem.github.io/MathJax-mhchem/) chemical equations
+5. feat: Added a "Reset to Default" button in the settings panel
+6. feat: Repositories with indexing enabled now support automatic refresh of the directory tree after adding/removing md files
+7. fix: Fixed issue where clicking on anchors in exported HTML would open a new window
+8. fix: Fixed issue where embedded local videos in documents could not be played
+9. feat(plugin): Added `ctx.api.listUserDir` method to get a list of user plugin data directory files
+10. feat(plugin): Added `SETTING_PANEL_AFTER_SHOW` Hook, triggered after the settings panel is displayed
+11. feat(plugin): Added `INDEXER_FS_CHANGE` Hook, triggered after file changes in repositories with indexing enabled
 
 [More release notes](https://github.com/purocean/yn/releases)
 

@@ -32,6 +32,7 @@ import editorRestoreState from '@fe/plugins/editor-restore-state'
 import copyText from '@fe/plugins/copy-text'
 import switchTodo from '@fe/plugins/switch-todo'
 import imageViewer from '@fe/plugins/image-viewer'
+import mediaPlayer from '@fe/plugins/media-player'
 import emoji from '@fe/plugins/emoji'
 import getStarted from '@fe/plugins/get-started'
 import markdownWikiLinks from '@fe/plugins/markdown-wiki-links'
@@ -73,6 +74,9 @@ import previewFontSize from '@fe/plugins/preview-font-size'
 import dropToOpenFile from '@fe/plugins/drop-to-open-file'
 import recordRecentDocument from '@fe/plugins/record-recent-document'
 import aiCopilot from '@fe/plugins/ai-copilot'
+import viewLinks from '@fe/plugins/view-links'
+import insertTable from '@fe/plugins/insert-table'
+import textComparator from '@fe/plugins/text-comparator'
 
 export default [
   buildInRenderers,
@@ -109,6 +113,7 @@ export default [
   copyText,
   switchTodo,
   imageViewer,
+  mediaPlayer,
   emoji,
   getStarted,
   markdownWikiLinks,
@@ -150,4 +155,7 @@ export default [
   recordRecentDocument,
   markdownGithubAlerts,
   aiCopilot,
+  viewLinks,
+  insertTable,
+  textComparator,
 ]

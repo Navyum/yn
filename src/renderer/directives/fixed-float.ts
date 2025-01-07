@@ -1,15 +1,20 @@
-import { App } from 'vue'
+import type { App, DirectiveBinding } from 'vue'
 
 export function install (app: App) {
   app.directive('fixed-float', {
-    mounted (el: HTMLElement, binding) {
+    mounted (el: HTMLElement, binding: DirectiveBinding<{
+      disableAutoFocus?: boolean,
+      onClose: (type: 'byClickSelf' | 'blur' | 'esc') => void,
+      onBlur?: (byClickSelf?: boolean) => void
+      onEsc?: () => void
+    } | undefined>) {
       const { value } = binding
 
       if (typeof value !== 'object') {
         return
       }
 
-      const { onClose } = value
+      const { onBlur, onClose, onEsc, disableAutoFocus } = value
 
       el.tabIndex = 0
       if (!el.style.outline) {
@@ -28,16 +33,20 @@ export function install (app: App) {
       }, true)
 
       el.addEventListener('blur', () => {
-        onClose(byClickSelf)
+        onBlur?.(byClickSelf)
+        onClose(byClickSelf ? 'byClickSelf' : 'blur')
       })
 
       el.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
-          onClose()
+          onEsc?.()
+          onClose('esc')
         }
       })
 
-      el.focus()
+      if (!disableAutoFocus) {
+        el.focus()
+      }
     }
   })
 }

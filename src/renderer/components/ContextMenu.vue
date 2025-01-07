@@ -1,5 +1,5 @@
 <template>
-  <XMask transparent :show="items && items.length > 0" @close="hide" :style="{ zIndex: 2147483646 }">
+  <XMask transparent :show="items && items.length > 0" @close="hide" layer="context-menu">
     <ul :class="{menu: true, 'item-focus': itemFocus}" ref="refMenu" @contextmenu.prevent tabindex="-1" v-auto-focus>
       <template v-for="(item, i) in items">
         <li v-if="item.type === 'separator'" v-show="!item.hidden" :key="i" :class="item.type" />
@@ -160,7 +160,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@fe/styles/mixins.scss';
+@use '@fe/styles/mixins.scss' as *;
 
 .menu {
   list-style: none;
@@ -175,7 +175,7 @@ export default defineComponent({
   border: 1px var(--g-color-84) solid;
   border-left: 0;
   border-top: 0;
-  z-index: 2147483647;
+  z-index: 1000;
   color: var(--g-foreground-color);
   min-width: 9em;
   cursor: default;
@@ -214,7 +214,7 @@ export default defineComponent({
     position: absolute;
     width: 10px;
     height: 10px;
-    transform: translateX(-14px) translateY(0px) scaleX(0.8);
+    transform: translateX(-14px) translateY(1px) scaleX(0.8);
   }
 }
 

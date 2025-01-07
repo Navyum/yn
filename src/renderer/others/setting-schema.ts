@@ -34,7 +34,13 @@ const schema: SettingSchema = ({
             options: {
               inputAttributes: { placeholder: 'T_setting-panel.schema.repos.path-placeholder', style: 'cursor: pointer' }
             },
-          }
+          },
+          enableIndexing: {
+            type: 'boolean',
+            title: 'T_setting-panel.schema.repos.enable-indexing',
+            defaultValue: false,
+            format: 'checkbox',
+          },
         }
       },
     },
@@ -123,10 +129,10 @@ const schema: SettingSchema = ({
       group: 'other',
     },
     'search.number-limit': {
-      defaultValue: 300,
+      defaultValue: 700,
       title: 'T_setting-panel.schema.search.number-limit',
       type: 'number',
-      enum: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000],
+      enum: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1300, 1600, 2000],
       required: true,
       group: 'other',
     },
@@ -221,7 +227,7 @@ const schema: SettingSchema = ({
       required: true,
     },
     'editor.mouse-wheel-zoom': {
-      defaultValue: true,
+      defaultValue: false,
       title: 'T_setting-panel.schema.editor.mouse-wheel-zoom',
       type: 'boolean',
       format: 'checkbox',
@@ -458,7 +464,7 @@ const schema: SettingSchema = ({
       group: 'proxy',
       pattern: '^(|.+:\\d{2,5})$',
       options: {
-        inputAttributes: { placeholder: 'T_setting-panel.schema.proxy.server-hint', }
+        inputAttributes: { placeholder: 'e.g. 127.0.0.1:8080', }
       }
     },
     'proxy.bypass-list': {

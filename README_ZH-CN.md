@@ -39,7 +39,7 @@
 - **待办列表:** 支持显示文档中的待办进度，点击可快速切换待办状态
 - **快速打开:** 可使用快捷键打开文件切换面板，以便快捷打开文件，标记的文件，全文搜索文件内容
 - **内置终端:** 支持在编辑器打开终端，快速切换当前工作目录
-- **公式解析:** 支持输入 katex 公式代码
+- **公式解析:** 支持输入 LaTeX 公式代码
 - **样式风格:** Markdown 使用 GitHub 风格样式和特性
 - **数据仓库:** 可定义多个数据位置以便文档分类
 - **外链转换:** 将外链或 BASE64 图片转换为本地图片
@@ -76,11 +76,21 @@
 
 ## 更新日志
 
-### [v3.76.2](https://github.com/purocean/yn/releases/tag/v3.76.2) 2024-09-14
+### [v3.79.1](https://github.com/purocean/yn/releases/tag/v3.79.1) 2025-01-02
 
-[Windows](https://github.com/purocean/yn/releases/download/v3.76.2/Yank-Note-win-x64-3.76.2.exe) | [macOS arm64](https://github.com/purocean/yn/releases/download/v3.76.2/Yank-Note-mac-arm64-3.76.2.dmg) | [macOS x64](https://github.com/purocean/yn/releases/download/v3.76.2/Yank-Note-mac-x64-3.76.2.dmg) | [Linux AppImage](https://github.com/purocean/yn/releases/download/v3.76.2/Yank-Note-linux-x86_64-3.76.2.AppImage) | [Linux deb](https://github.com/purocean/yn/releases/download/v3.76.2/Yank-Note-linux-amd64-3.76.2.deb)
+[Windows](https://github.com/purocean/yn/releases/download/v3.79.1/Yank-Note-win-x64-3.79.1.exe) | [macOS arm64](https://github.com/purocean/yn/releases/download/v3.79.1/Yank-Note-mac-arm64-3.79.1.dmg) | [macOS x64](https://github.com/purocean/yn/releases/download/v3.79.1/Yank-Note-mac-x64-3.79.1.dmg) | [Linux AppImage](https://github.com/purocean/yn/releases/download/v3.79.1/Yank-Note-linux-x86_64-3.79.1.AppImage) | [Linux deb](https://github.com/purocean/yn/releases/download/v3.79.1/Yank-Note-linux-amd64-3.79.1.deb)
 
-1. fix: 修复 PlantUML 渲染不正确问题
+1. feat: Markdown `![]()` 图片语法支持本地视频和音频路径
+2. feat: 增加直接在应用中打开预览视频和音频文件
+3. feat: 优化 HTML 解析
+4. feat: 支持书写 [mhchem](https://mhchem.github.io/MathJax-mhchem/) 化学方程式
+5. feat: 设置面板设置项增加重置为默认值按钮
+6. feat: 开启索引的仓库支持仓库 md 文件添加/删除后自动刷新目录树
+7. fix: 修复导出 HTML 点击锚点后会在新窗口打开页面问题
+8. fix: 修复文档中嵌入本地视频不能播放问题
+9. feat(plugin): 增加 `ctx.api.listUserDir` 方法，获取用户插件数据目录文件列表
+10. feat(plugin): 增加 `SETTING_PANEL_AFTER_SHOW` Hook，设置面板显示后触发
+11. feat(plugin): 增加 `INDEXER_FS_CHANGE` Hook，开启索引的仓库文件变更后触发
 
 [更多发布说明](https://github.com/purocean/yn/releases)
 

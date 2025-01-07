@@ -237,7 +237,7 @@ const createWindow = () => {
   win = new BrowserWindow({
     maximizable: true,
     show: false,
-    minWidth: 880,
+    minWidth: 940,
     minHeight: 500,
     frame: false,
     backgroundColor: '#282a2b',
@@ -415,7 +415,10 @@ const showSetting = (key?: string) => {
   }
 
   showWindow()
-  jsonRPCClient.call.ctx.setting.showSettingPanel(key)
+  // delay to show setting panel to ensure window is ready.
+  setTimeout(() => {
+    jsonRPCClient.call.ctx.setting.showSettingPanel(key)
+  }, 200)
 }
 
 const toggleFullscreen = () => {
@@ -634,7 +637,7 @@ if (!gotTheLock) {
       })
     })
 
-    webContents.setWindowOpenHandler(({ url }) => {
+    webContents.setWindowOpenHandler(({ url, features }) => {
       if (url.includes('__allow-open-window__')) {
         return { action: 'allow' }
       }
@@ -652,7 +655,28 @@ if (!gotTheLock) {
         return { action: 'deny' }
       }
 
-      return { action: 'allow' }
+      const webPreferences: Record<string, boolean | string> = {}
+
+      // electron not auto parse features below. https://www.electronjs.org/docs/latest/api/window-open
+      const extraFeatureKeys = [
+        'experimentalFeatures',
+        'nodeIntegrationInSubFrames',
+        'webSecurity',
+      ]
+
+      extraFeatureKeys.forEach(key => {
+        const match = features.match(new RegExp(`${key}=([^,]+)`))
+        if (match) {
+          webPreferences[key] = match[1] === 'true' ? true : match[1] === 'false' ? false : match[1]
+        }
+      })
+
+      return {
+        action: 'allow',
+        overrideBrowserWindowOptions: {
+          webPreferences: Object.keys(webPreferences).length > 0 ? webPreferences : undefined,
+        }
+      }
     })
   })
 }

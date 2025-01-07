@@ -13,6 +13,7 @@ for rendering output.
 */
 
 import katex from 'katex'
+import 'katex/contrib/mhchem/mhchem.js'
 import { h } from 'vue'
 import type { Plugin } from '@fe/context'
 import type Token from 'markdown-it/lib/token'
@@ -231,8 +232,9 @@ function math_plugin (md: any) {
 export default {
   name: 'markdown-katex',
   register: ctx => {
-    ctx.view.addStyles(styles)
     ctx.view.addStyles(`
+      ${styles}
+
       .markdown-view .markdown-body .katex {
         background: initial;
       }
@@ -248,7 +250,7 @@ export default {
       /* eslint-disable no-template-curly-in-string */
 
       items.push(
-        { label: '/ \\begin KaTeX Environment', insertText: '\\begin{$1}\n\\end{$1}' },
+        { label: '/ \\begin KaTeX Environment', insertText: '\\begin{$1}\n$2\n\\end{$1}', block: true },
         { label: '/ $ Inline KaTeX', insertText: '$$1$' },
         { label: '/ $$ Block KaTeX', insertText: '$$$1$$\n', block: true },
       )

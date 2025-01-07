@@ -3,6 +3,11 @@ export interface PathItem {
   path: string;
 }
 
+export interface LabelValueItem<T> {
+  label: string;
+  value: T;
+}
+
 export interface FileItem extends PathItem { name: string }
 
 export interface FileStat {
@@ -19,7 +24,7 @@ export interface FileReadResult {
 }
 
 export interface Doc extends PathItem {
-  type: 'file' | 'dir';
+  type: 'file' | 'dir' | `__${string}`;
   name: string;
   content?: string;
   title?: string;
@@ -35,4 +40,5 @@ export interface Doc extends PathItem {
 export interface Repo {
   name: string;
   path: string;
+  enableIndexing: boolean;
 }
