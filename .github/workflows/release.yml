@@ -2,8 +2,12 @@ name: Release
 
 on:
     workflow_dispatch:
-    schedule:
-        - cron: "0 8 * * *"
+    push:
+      tags:
+        - '*'
+
+    #schedule:
+    #    - cron: "0 8 * * *"
 
 jobs:
   build:
