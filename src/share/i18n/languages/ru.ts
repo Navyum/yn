@@ -2,7 +2,7 @@
 import type { BaseLanguage } from './en'
 
 const data: BaseLanguage = {
-  'app-name': 'Yank Note',
+  'app-name': 'Mark Note',
   'about': 'О проекте',
   'feedback': 'Поддержка',
   'slogan': 'Гибкий, расширяемый редактор Markdown, создан для повышения производительности.',
@@ -60,7 +60,7 @@ const data: BaseLanguage = {
       'intro': 'Описание',
       'current-plan': 'Текущий план',
       'included': 'Включено',
-      'desc': 'Yank Note это проект с открытым исходным кодом, я постоянно развиваю его с 2018 года. На это уходят мои силы и деньги. Теперь доступна премиум-версия. Если вы хотите поддержать мое развитие или вам нужны дополнительные функции, вы можете купить лицензию.',
+      'desc': 'Mark Note это проект с открытым исходным кодом, я постоянно развиваю его с 2024 года. На это уходят мои силы и деньги. Теперь доступна премиум-версия. Если вы хотите поддержать мое развитие или вам нужны дополнительные функции, вы можете купить лицензию.',
       'free-desc': 'Для большинства пользователей',
       'premium-desc': 'Дополнительные возможности',
       'free-list': 'Basic Editing\nGraphic Embedding\nRun Code Snippet\nHTML Applets\nEncryption\nTerminal Integration\nDocument History\nExtension',
@@ -124,7 +124,7 @@ const data: BaseLanguage = {
     },
     'updater': {
       'found-dialog': {
-        'title': 'Yank Note - доступна новая версия',
+        'title': 'Mark Note - доступна новая версия',
         'desc': 'Текущая версия: %s\nНовая версия: %s',
         'buttons': {
           'download': 'Скачать',
@@ -135,15 +135,15 @@ const data: BaseLanguage = {
         }
       },
       'progress-bar': {
-        'title': 'Yank Note - обновление',
+        'title': 'Mark Note - обновление',
         'detail': 'Загрузка %s',
         'failed': 'Не удалось загрузить: %s'
       },
       'failed-dialog': {
-        'title': 'Yank Note - что-то пошло не так',
+        'title': 'Mark Note - что-то пошло не так',
       },
       'install-dialog': {
-        'title': 'Yank Note - загрузка завершена',
+        'title': 'Mark Note - загрузка завершена',
         'desc': 'Установить прямо сейчас?',
         'buttons': {
           'install': 'Установить',
@@ -151,7 +151,7 @@ const data: BaseLanguage = {
         }
       },
       'no-newer-dialog': {
-        'title': 'Yank Note - нет новых версий',
+        'title': 'Mark Note - нет новых версий',
         'desc': 'У вас установлена самая последняя версия'
       }
     },
