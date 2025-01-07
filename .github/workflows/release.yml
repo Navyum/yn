@@ -62,7 +62,6 @@ jobs:
           echo "APPLEIDPASS=${{ secrets.APPLEIDPASS }}" >> $GITHUB_ENV
           echo "CSC_LINK=${{ secrets.CSC_LINK }}" >> $GITHUB_ENV
           echo "CSC_KEY_PASSWORD=${{ secrets.CSC_KEY_PASSWORD }}" >> $GITHUB_ENV
-          echo "PRODUCT_NAME=${{ PRODUCT_NAME }}" >> $GITHUB_ENV
           #echo "TEAMID=${{ secrets.TEAMID }}" >> $GITHUB_ENV
 
       - name: Build
