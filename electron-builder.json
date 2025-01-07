@@ -1,7 +1,7 @@
 {
-  "appId": "yank.down",
-  "productName": "Yank Note",
-  "copyright": "Copyright 2018-2021",
+  "appId": "Mark.Note",
+  "productName": "Mark.Note",
+  "copyright": "Copyright 2018-2025",
   "asar": true,
   "asarUnpack": [
     "bin/**/*",
@@ -40,7 +40,7 @@
     ]
   },
   "mac": {
-    "icon": "./build/icon.icns",
+    "icon": "./build/micon.icns",
     "gatekeeperAssess": false,
     "hardenedRuntime": true,
     "entitlements": "build/entitlements.mac.plist",
