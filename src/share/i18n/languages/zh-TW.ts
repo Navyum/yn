@@ -2,7 +2,7 @@
 import type { BaseLanguage } from './en'
 
 const data: BaseLanguage = {
-  'app-name': 'Yank Note',
+  'app-name': 'Mark Note',
   'about': '關於',
   'feedback': '回饋',
   'slogan': '一款強大可擴展的 Markdown 編輯器，為生產力而生',
@@ -60,7 +60,7 @@ const data: BaseLanguage = {
       'intro': '簡介',
       'current-plan': '目前版本',
       'included': '包含內容',
-      'desc': 'Yank Note 是一款開源筆記應用，自 2018 年起持續開發、更新。由於軟體的開發、維護需要用心力與資金，決定推出付費高級版。如果您想支持我的開發工作，或需要使用高級版的功能，可以選擇購買高級版。',
+      'desc': 'Mark Note 是一款開源筆記應用，自 2024 年起持續開發、更新。由於軟體的開發、維護需要用心力與資金，決定推出付費高級版。如果您想支持我的開發工作，或需要使用高級版的功能，可以選擇購買高級版。',
       'free-desc': '滿足大部分使用者需求',
       'premium-desc': '更多高級功能',
       'free-list': '基礎編輯功能\n圖形嵌入\n執行程式碼片段\nHTML 工具\n文件加密\n內建終端機\n文件歷史\n擴充套件',
@@ -124,7 +124,7 @@ const data: BaseLanguage = {
     },
     'updater': {
       'found-dialog': {
-        'title': 'Yank Note - 發現新版本',
+        'title': 'Mark Note - 發現新版本',
         'desc': '目前版本: %s\n新版本: %s',
         'buttons': {
           'download': '下載',
@@ -135,15 +135,15 @@ const data: BaseLanguage = {
         }
       },
       'progress-bar': {
-        'title': 'Yank Note - 下載',
+        'title': 'Mark Note - 下載',
         'detail': '下載中 %s',
         'failed': '下載失敗: %s'
       },
       'failed-dialog': {
-        'title': 'Yank Note - 出現了一些錯誤',
+        'title': 'Mark Note - 出現了一些錯誤',
       },
       'install-dialog': {
-        'title': 'Yank Note - 下載完成',
+        'title': 'Mark Note - 下載完成',
         'desc': '新版本下載完成，是否要立即安裝？',
         'buttons': {
           'install': '安裝',
@@ -151,7 +151,7 @@ const data: BaseLanguage = {
         }
       },
       'no-newer-dialog': {
-        'title': 'Yank Note - 無新版本',
+        'title': 'Mark Note - 無新版本',
         'desc': '目前已是最新版本'
       }
     },
