@@ -34,7 +34,7 @@ const data: BaseLanguage = {
   'outline': 'Конспект',
   'files': 'Файлы',
   'install-extension-tips': 'Пожалуйста, сначала установите и включите расширение "%s"',
-  'not-support-mas': 'Yank Note загруженный из Mac Apple Store, не поддерживает это расширение.',
+  'not-support-mas': 'Mark Note загруженный из Mac Apple Store, не поддерживает это расширение.',
   'learn-more': 'Узнать больше',
   'default': 'По умолчанию',
   'print': 'Печать',
