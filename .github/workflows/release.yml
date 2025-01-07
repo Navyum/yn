@@ -115,7 +115,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           prerelease: true
-          tag_name: 'v1.0'
+          tag_name: 'v2.0'
           files: |
             out/Yank-Note*.*
             # out/latest*.yml
