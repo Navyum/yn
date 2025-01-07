@@ -1,7 +1,7 @@
 /* eslint-disable quote-props */
 
 const data = {
-  'app-name': 'Yank Note',
+  'app-name': 'Mark Note',
   'about': 'About',
   'feedback': 'Feedback',
   'slogan': 'A highly extensible Markdown editor, designed for productivity.',
@@ -59,7 +59,7 @@ const data = {
       'intro': 'Intro',
       'current-plan': 'Current Plan',
       'included': 'Included',
-      'desc': 'Yank Note is open-source, I\'ve been constantly developing it since 2018. It takes my energy and money. Now a premium version is available. If you want to support my development or need advanced features, you can buy a license.',
+      'desc': 'Mark Note is open-source, I\'ve been constantly developing it since 2018. It takes my energy and money. Now a premium version is available. If you want to support my development or need advanced features, you can buy a license.',
       'free-desc': 'For most users',
       'premium-desc': 'More features',
       'free-list': 'Basic Editing\nGraphic Embedding\nRun Code Snippet\nHTML Applets\nEncryption\nTerminal Integration\nDocument History\nExtension',
@@ -123,7 +123,7 @@ const data = {
     },
     'updater': {
       'found-dialog': {
-        'title': 'Yank Note - Newer version was found',
+        'title': 'Mark Note - Newer version was found',
         'desc': 'Current version: %s\nNewer version: %s',
         'buttons': {
           'download': 'Download',
@@ -134,15 +134,15 @@ const data = {
         }
       },
       'progress-bar': {
-        'title': 'Yank Note - Download',
+        'title': 'Mark Note - Download',
         'detail': 'Downloading %s',
         'failed': 'Download failed: %s'
       },
       'failed-dialog': {
-        'title': 'Yank Note - Something went wrong',
+        'title': 'Mark Note - Something went wrong',
       },
       'install-dialog': {
-        'title': 'Yank Note - Download complete',
+        'title': 'Mark Note - Download complete',
         'desc': 'Do you want to install it now?',
         'buttons': {
           'install': 'Install',
@@ -150,7 +150,7 @@ const data = {
         }
       },
       'no-newer-dialog': {
-        'title': 'Yank Note - No newer version',
+        'title': 'Mark Note - No newer version',
         'desc': 'The current version is up-to-date'
       }
     },
