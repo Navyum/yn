@@ -3,11 +3,11 @@ headingNumber: true
 enableMacro: true
 customVar: Hello
 define:
-    --APP_NAME--: Yank Note
+    --APP_NAME--: Mark Note
     --APP_VERSION--: '[= $ctx.version =]'
 ---
 
-# Yank-Note Features Instructions
+# Mark Note Features Instructions
 
 English | [中文](./FEATURES_ZH-CN.md)
 
@@ -617,7 +617,7 @@ test 3
 
 ## AI Copilot
 
-Yank Note integrates with artificial intelligence platforms such as [OpenAI](https://openai.com) and [Google AI](https://ai.google.dev/), enabling features like intelligent autocompletion and text rewriting.
+Mark Note integrates with artificial intelligence platforms such as [OpenAI](https://openai.com) and [Google AI](https://ai.google.dev/), enabling features like intelligent autocompletion and text rewriting.
 
 > [!NOTE]
 > You need to obtain the relevant API tokens yourself. *<a href="javascript: ctx.showExtensionManager('@yank-note/extension-openai')">Requires AI Copilot extension installed and enabled</a>*.
@@ -646,13 +646,13 @@ variable name | type | description
 > [!NOTE]
 > *<a href="javascript: ctx.showPremium()">Available in premium version</a>*
 
-Yank Note allows you to embed macros in the page to dynamically replace the document.
+Mark Note allows you to embed macros in the page to dynamically replace the document.
 
 > [!IMPORTANT]
 > Before using, you need to enable macro replacement in Front Matter and define `enableMacro: true`.
 
 > [!WARNING]
-> Using macro replacement may lead to inaccurate correspondence between source code and preview line numbers. Yank Note has dealt with it as much as possible, but some cases may still cause synchronous scrolling exceptions.
+> Using macro replacement may lead to inaccurate correspondence between source code and preview line numbers. Mark Note has dealt with it as much as possible, but some cases may still cause synchronous scrolling exceptions.
 
 ### Definition
 

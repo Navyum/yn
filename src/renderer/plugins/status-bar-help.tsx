@@ -84,17 +84,17 @@ export default {
                   <img src={logoImg} width="100" height="100" />
                   <p>{ctx.i18n.t('slogan')}</p>
                   <p>
-                    <a href="https://github.com/purocean/yn/releases" target="_blank">{ctx.version}</a>
+                    <a href="https://github.com/Navyum/yn/releases" target="_blank">{ctx.version}</a>
                     &nbsp;|&nbsp;
                     <a href={HOMEPAGE_URL} target="_blank">Homepage</a>
                     &nbsp;|&nbsp;
-                    <a href="https://github.com/purocean/yn" target="_blank">Github</a>
+                    <a href="https://github.com/Navyum/yn" target="_blank">Github</a>
                     &nbsp;|&nbsp;
                     <a href="https://blog-purocean.vercel.app/yank-note-01/" target="_blank">Blog</a>
                   </p>
                   <p style={{ fontSize: '14px' }}>
                     <span>CopyRight &copy; 2018 - {new Date().getFullYear()}</span>&nbsp;
-                    <a href="https://github.com/purocean" target="_blank">purocean</a>
+                    <a href="https://github.com/Navyum" target="_blank">Navyum</a>
                   </p>
                 </div>
               })

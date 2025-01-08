@@ -246,7 +246,7 @@ export async function getContentHtml (options: BuildInHookTypes['VIEW_ON_GET_HTM
 
     await filter(div)
 
-    div.firstElementChild?.setAttribute('powered-by', 'Yank Note')
+    div.firstElementChild?.setAttribute('powered-by', 'Mark Note')
     return div.innerHTML || ''
   }
 

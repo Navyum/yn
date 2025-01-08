@@ -27,7 +27,7 @@
                 <div class="description">{{ item.description }}</div>
                 <div class="bottom">
                   <div v-if="item.origin === 'official'" class="author">
-                    <i><svg-icon name="codicon-verified-filled" height="16px" style="margin-top: -2px;" />Yank Note</i>
+                    <i><svg-icon name="codicon-verified-filled" height="16px" style="margin-top: -2px;" />Mark Note</i>
                   </div>
                   <div v-else class="author" >{{ item.author.name }}</div>
                   <div class="status-list">
@@ -76,7 +76,7 @@
                     <span>{{ $t('extension.author') }}</span>
                     <span v-if="currentExtension.origin === 'official'">
                       <svg-icon name="codicon-verified-filled" height="16px" style="margin-top: -4px;margin-bottom: -2px;" />
-                      <i>Yank Note</i>
+                      <i>Mark Note</i>
                     </span>
                     <span v-else>{{ currentExtension.author.name }}</span>
                   </div>

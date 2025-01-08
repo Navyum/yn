@@ -21,7 +21,7 @@ function buildHtml (title: string, body: string, options: { includeStyle: boolea
 <html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
   <head>
     <meta charset="utf-8" />
-    <meta name="generator" content="Yank Note" />
+    <meta name="generator" content="Mark Note" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <title>${escape(title)}</title>
     ${

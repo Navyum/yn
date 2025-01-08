@@ -1,4 +1,4 @@
-# Yank Note
+# Mark Note
 
 一款**强大可扩展**的 Markdown 编辑器，为生产力而生。**[全平台下载](https://github.com/purocean/yn/releases)** ｜ **[在线体验>>>](https://demo.yank-note.com/)**
 
@@ -20,7 +20,7 @@
 
 ## 注意事项
 
-- 为了更高的拓展性和方便性，Yank Note 牺牲了安全防护（命令执行，任意文件读写）。如果要用它打开外来 Markdown 文件，⚠️**请务必仔细甄别文件内容是值得信任的**⚠️。
+- 为了更高的拓展性和方便性，Mark Note 牺牲了安全防护（命令执行，任意文件读写）。如果要用它打开外来 Markdown 文件，⚠️**请务必仔细甄别文件内容是值得信任的**⚠️。
 - 加密文件的加密解密操作均在前端完成，请**务必牢记自己的密码**。一旦密码丢失，就只能暴力破解了。
 
 ## 特色功能
@@ -73,29 +73,3 @@
 ![截图](./help/3_ZH-CN.png)
 ![截图](./help/4_ZH-CN.png)
 ![截图](./help/5_ZH-CN.png)
-
-## 更新日志
-
-### [v3.79.1](https://github.com/purocean/yn/releases/tag/v3.79.1) 2025-01-02
-
-[Windows](https://github.com/purocean/yn/releases/download/v3.79.1/Yank-Note-win-x64-3.79.1.exe) | [macOS arm64](https://github.com/purocean/yn/releases/download/v3.79.1/Yank-Note-mac-arm64-3.79.1.dmg) | [macOS x64](https://github.com/purocean/yn/releases/download/v3.79.1/Yank-Note-mac-x64-3.79.1.dmg) | [Linux AppImage](https://github.com/purocean/yn/releases/download/v3.79.1/Yank-Note-linux-x86_64-3.79.1.AppImage) | [Linux deb](https://github.com/purocean/yn/releases/download/v3.79.1/Yank-Note-linux-amd64-3.79.1.deb)
-
-1. feat: Markdown `![]()` 图片语法支持本地视频和音频路径
-2. feat: 增加直接在应用中打开预览视频和音频文件
-3. feat: 优化 HTML 解析
-4. feat: 支持书写 [mhchem](https://mhchem.github.io/MathJax-mhchem/) 化学方程式
-5. feat: 设置面板设置项增加重置为默认值按钮
-6. feat: 开启索引的仓库支持仓库 md 文件添加/删除后自动刷新目录树
-7. fix: 修复导出 HTML 点击锚点后会在新窗口打开页面问题
-8. fix: 修复文档中嵌入本地视频不能播放问题
-9. feat(plugin): 增加 `ctx.api.listUserDir` 方法，获取用户插件数据目录文件列表
-10. feat(plugin): 增加 `SETTING_PANEL_AFTER_SHOW` Hook，设置面板显示后触发
-11. feat(plugin): 增加 `INDEXER_FS_CHANGE` Hook，开启索引的仓库文件变更后触发
-
-[更多发布说明](https://github.com/purocean/yn/releases)
-
-## 支持
-
-加我微信进交流群（备注 Yank Note）
-
-<img src="./help/qrcode-wechat.jpg" width="150">

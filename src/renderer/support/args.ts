@@ -14,9 +14,9 @@ export function $args () {
   return new URLSearchParams(win.location.search)
 }
 
-export const URL_GITHUB = 'https://github.com/purocean/yn'
+export const URL_GITHUB = 'https://github.com/Navyum/yn'
 export const URL_MAS = 'https://apps.apple.com/cn/app/yank-note/id1551528618'
-export const URL_MAS_LIMITATION = 'https://github.com/purocean/yn/issues/65#issuecomment-1065799677'
+export const URL_MAS_LIMITATION = 'https://github.com/Navyum/yn/issues/65#issuecomment-1065799677'
 
 export const JWT_TOKEN = $args().get('token') || ''
 export const MODE: 'normal' | 'share-preview' = $args().get('mode') || 'normal' as any

@@ -103,7 +103,7 @@ test('readInfoFromJson', () => {
     license: '',
     requirements: { premium: true, terminal: false },
     compatible: {
-      reason: 'Need Yank Note [>=3.30.0].',
+      reason: 'Need Mark Note [>=3.30.0].',
       value: false,
     },
     readmeUrl: '',

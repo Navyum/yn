@@ -58,7 +58,7 @@ export function getCompatible (engines?: { 'yank-note': string }): ExtensionComp
 
   return {
     value,
-    reason: value ? 'Compatible' : `Need Yank Note [${engines['yank-note']}].`,
+    reason: value ? 'Compatible' : `Need Mark Note [${engines['yank-note']}].`,
   }
 }
 

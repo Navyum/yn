@@ -33,7 +33,7 @@ const data = {
   'outline': 'Outline',
   'files': 'Files',
   'install-extension-tips': 'Please install and enable the "%s" extension first',
-  'not-support-mas': 'Yank Note downloaded from the Mac Apple Store does not support this extension.',
+  'not-support-mas': 'Mark Note downloaded from the Mac Apple Store does not support this extension.',
   'learn-more': 'Learn More',
   'default': 'Default',
   'print': 'Print',

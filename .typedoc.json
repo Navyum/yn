@@ -1,6 +1,6 @@
 {
   "out": "docs",
-  "name": "Yank Note Api",
+  "name": "Mark Note Api",
   "includeVersion": true,
   "entryPointStrategy": "expand",
   "readme": "none",

@@ -3,11 +3,11 @@ headingNumber: true
 enableMacro: true
 customVar: Hello
 define:
-    --APP_NAME--: Yank Note
+    --APP_NAME--: Mark Note
     --APP_VERSION--: '[= $ctx.version =]'
 ---
 
-# Yank-Note 特色功能使用说明
+# Mark Note 特色功能使用说明
 
 [English](./FEATURES.md) | 中文
 
@@ -614,7 +614,7 @@ test 3
 
 ## AI Copilot 人工智能写作助手
 
-Yank Note 接入了 [OpenAI](https://openai.com)、[Google AI](https://ai.google.dev/) 等人工智能平台，可以使用人工智能进行智能补全、文本重写等功能
+Mark Note 接入了 [OpenAI](https://openai.com)、[Google AI](https://ai.google.dev/) 等人工智能平台，可以使用人工智能进行智能补全、文本重写等功能
 
 > [!NOTE]
 > 相关 API token 需要你自行获取。且需要 *<a href="javascript: ctx.showExtensionManager('@yank-note/extension-ai-copilot')">安装并启用 AI Copilot 扩展</a>*
@@ -644,13 +644,13 @@ Yank Note 接入了 [OpenAI](https://openai.com)、[Google AI](https://ai.google
 > [!NOTE]
 > 此功能 *<a href="javascript: ctx.showPremium()">高级版可用</a>*
 
-Yank Note 允许你在页面中嵌入宏，用以动态地替换文档。
+Mark Note 允许你在页面中嵌入宏，用以动态地替换文档。
 
 > [!IMPORTANT]
 > 使用前需要先在 Front Matter 开启宏替换，定义 `enableMacro: true`。
 
 > [!WARNING]
-> 使用宏替换可能会导致源码和预览行号对应不准确，Yank Note 已经尽可能处理，但某些情况可能仍然会出现同步滚动异常。
+> 使用宏替换可能会导致源码和预览行号对应不准确，Mark Note 已经尽可能处理，但某些情况可能仍然会出现同步滚动异常。
 
 ### 文本替换
 

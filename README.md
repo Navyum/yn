@@ -1,4 +1,4 @@
-# Yank Note
+# Mark Note
 
 A **highly extensible** Markdown editor, designed for productivity. **[Download](https://github.com/purocean/yn/releases)** | **[Try it Online >>>](https://demo.yank-note.com/)**
 
@@ -20,7 +20,7 @@ English | [中文说明](./README_ZH-CN.md) | [Русский](./README_RU.md)
 
 ## Attention
 
-- For more extendable, Yank Note sacrifices security protection (command execution, arbitrary file reading and writing). If you want to use it to open a foreign Markdown file, ⚠️**be sure to carefully identify whether the content of the file is trustworthy**⚠️.
+- For more extendable, Mark Note sacrifices security protection (command execution, arbitrary file reading and writing). If you want to use it to open a foreign Markdown file, ⚠️**be sure to carefully identify whether the content of the file is trustworthy**⚠️.
 - The encryption and decryption of encrypted files are both completed at the front end. Please **be sure to remember your password**. Once the password is lost, it can only be cracked violently.
 
 ## Characteristic functions
@@ -73,29 +73,3 @@ For more information on how to use the following functions, please see [characte
 ![Screenshot](./help/3.png)
 ![Screenshot](./help/4.png)
 ![Screenshot](./help/5.png)
-
-## Changelogs
-
-### [v3.79.1](https://github.com/purocean/yn/releases/tag/v3.79.1) 2025-01-02
-
-[Windows](https://github.com/purocean/yn/releases/download/v3.79.1/Yank-Note-win-x64-3.79.1.exe) | [macOS arm64](https://github.com/purocean/yn/releases/download/v3.79.1/Yank-Note-mac-arm64-3.79.1.dmg) | [macOS x64](https://github.com/purocean/yn/releases/download/v3.79.1/Yank-Note-mac-x64-3.79.1.dmg) | [Linux AppImage](https://github.com/purocean/yn/releases/download/v3.79.1/Yank-Note-linux-x86_64-3.79.1.AppImage) | [Linux deb](https://github.com/purocean/yn/releases/download/v3.79.1/Yank-Note-linux-amd64-3.79.1.deb)
-
-1. feat: Markdown `![]()` image syntax now supports local video and audio paths
-2. feat: Added the ability to preview video and audio files directly within the application
-3. feat: Optimized HTML parsing
-4. feat: Support for writing [mhchem](https://mhchem.github.io/MathJax-mhchem/) chemical equations
-5. feat: Added a "Reset to Default" button in the settings panel
-6. feat: Repositories with indexing enabled now support automatic refresh of the directory tree after adding/removing md files
-7. fix: Fixed issue where clicking on anchors in exported HTML would open a new window
-8. fix: Fixed issue where embedded local videos in documents could not be played
-9. feat(plugin): Added `ctx.api.listUserDir` method to get a list of user plugin data directory files
-10. feat(plugin): Added `SETTING_PANEL_AFTER_SHOW` Hook, triggered after the settings panel is displayed
-11. feat(plugin): Added `INDEXER_FS_CHANGE` Hook, triggered after file changes in repositories with indexing enabled
-
-[More release notes](https://github.com/purocean/yn/releases)
-
-## Supports
-
-Wechat Group
-
-<img src="./help/qrcode-wechat.jpg?.inline" width="150">

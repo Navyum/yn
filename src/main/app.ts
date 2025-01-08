@@ -479,7 +479,7 @@ const showOpenDialog = (params: OpenDialogOptions) => {
 }
 
 const showTray = () => {
-  const img = isMacos ? 'trayTemplate.png' : 'tray.png'
+  const img = isMacos ? 'micon.icns' : 'tray.png'
   tray = new Tray(path.join(__dirname, `./assets/${img}`))
   tray.setToolTip(`${$t('app-name')} - ${$t('slogan')}`)
   if (isMacos) {
@@ -507,7 +507,7 @@ async function tryOpenFile (path: string) {
     jsonRPCClient.call.ctx.doc.switchDocByPath(path)
     showWindow()
   } else {
-    win && dialog.showMessageBox(win, { message: 'Yank Note only support open file.' })
+    win && dialog.showMessageBox(win, { message: 'Mark Note only support open file.' })
   }
 }
 

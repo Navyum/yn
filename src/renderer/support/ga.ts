@@ -13,7 +13,7 @@ const ga = new FirebaseAnalyticsJS({ measurementId }, {
   screenRes: `${window.screen.width}x${window.screen.height}`,
   customArgs: {
     uafvl: navigator.userAgent,
-    'ep.app_name': 'Yank Note',
+    'ep.app_name': 'Mark Note',
     'ep.app_version': ctx.version,
     'ep.yn_theme': { toString: () => ctx.theme.getThemeName() } as string,
     'ep.yn_lang': { toString: () => ctx.i18n.getCurrentLanguage() } as string,
