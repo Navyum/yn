@@ -479,7 +479,7 @@ const showOpenDialog = (params: OpenDialogOptions) => {
 }
 
 const showTray = () => {
-  const img = isMacos ? 'micon.icns' : 'tray.png'
+  const img = isMacos ? 'icon.png' : 'icon.png'
   tray = new Tray(path.join(__dirname, `./assets/${img}`))
   tray.setToolTip(`${$t('app-name')} - ${$t('slogan')}`)
   if (isMacos) {
