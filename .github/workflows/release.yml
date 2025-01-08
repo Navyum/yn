@@ -129,7 +129,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PRODUCT_NAME: "Note" 
         with:
-          prerelease: true
+          prerelease: false
           tag_name: ${{ github.ref_name }}
           files: |
             out/*${{ env.PRODUCT_NAME }}*.*
